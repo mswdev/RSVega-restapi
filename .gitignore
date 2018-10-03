@@ -1,0 +1,19 @@
+# Created by .ignore support plugin (hsz.mobi)
+# Webstorm .gitignore
+
+# Webstorm
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Mac
+*.DS_Store
+
+# Package Files
+*.jar
+*.zip
+*.rar
+
+# Logs
+*.log

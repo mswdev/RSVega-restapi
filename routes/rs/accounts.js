@@ -25,7 +25,7 @@ function getConnection() {
 app.get('/rs/accounts/unchecked', (req, res) => {
     const connection = getConnection()
     const select_account = "SELECT * FROM account WHERE last_update IS NULL LIMIT 1"
-    connection.query(select_account, (error, results, fields) => {
+    connection.query(select_account, (error, results) => {
         if (error) throw error
         return res.send(({
             success: true,
@@ -38,7 +38,7 @@ app.get('/rs/accounts/:id', (req, res) => {
     let account_id = req.params.id
     const connection = getConnection()
     const select_account = "SELECT * FROM account WHERE id = ?"
-    connection.query(select_account, [account_id], (error, results, fields) => {
+    connection.query(select_account, [account_id], (error, results) => {
         if (error) throw error
         return res.send(({
             success: true,
@@ -52,11 +52,11 @@ app.post('/rs/accounts/add', (req, res) => {
     let password = req.query.password
     const connection = getConnection()
     const select_account = "SELECT username FROM account WHERE username = ?"
-    connection.query(select_account, [username], (error, results, fields) => {
+    connection.query(select_account, [username], (error, results) => {
         if (error) throw error
         if (results[0] == null) {
             const insert_account = "INSERT INTO account (username, password) VALUES (?, ?)"
-            connection.query(insert_account, [username, password], (error, results, fields) => {
+            connection.query(insert_account, [username, password], (error, results) => {
                 if (error) throw error
                 return res.send(({
                     success: true,
@@ -94,7 +94,7 @@ app.put('/rs/accounts/:id/update', (req, res) => {
         password, display_name, age,
         is_members, is_bank_pin, is_banned,
         is_locked, is_auth, is_invalid,
-        account_id], (error, results, fields) => {
+        account_id], (error, results) => {
         if (error) throw error
         return res.send(({
             success: true,
@@ -165,7 +165,7 @@ app.put('/rs/accounts/:id/osrs/update', (req, res) => {
         level_agility, level_thieving, level_slayer,
         level_farming, level_runecrafting, level_hunter,
         level_construction, quest_points, quests_complete,
-        account_id], (error, results, fields) => {
+        account_id], (error, results) => {
         if (error) throw error
         return res.send(({
             success: true,
@@ -242,7 +242,7 @@ app.put('/rs/accounts/:id/rs3/update', (req, res) => {
         level_farming, level_runecrafting, level_hunter,
         level_construction, level_summoning, level_dungeoneering,
         level_divination, level_invention, quest_points,
-        quests_complete, account_id], (error, results, fields) => {
+        quests_complete, account_id], (error, results) => {
         if (error) throw error
         return res.send(({
             success: true,
