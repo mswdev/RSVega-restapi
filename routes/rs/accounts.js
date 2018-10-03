@@ -22,7 +22,7 @@ function getConnection() {
     return pool
 }
 
-app.get('/rs/accounts/unchecked', (req, res) => {
+router.get('/rs/accounts/unchecked', (req, res) => {
     const connection = getConnection()
     const select_account = "SELECT * FROM account WHERE last_update IS NULL LIMIT 1"
     connection.query(select_account, (error, results) => {
@@ -34,7 +34,7 @@ app.get('/rs/accounts/unchecked', (req, res) => {
     })
 })
 
-app.get('/rs/accounts/:id', (req, res) => {
+router.get('/rs/accounts/:id', (req, res) => {
     let account_id = req.params.id
     const connection = getConnection()
     const select_account = "SELECT * FROM account WHERE id = ?"
@@ -47,7 +47,7 @@ app.get('/rs/accounts/:id', (req, res) => {
     })
 })
 
-app.post('/rs/accounts/add', (req, res) => {
+router.post('/rs/accounts/add', (req, res) => {
     let username = req.query.username
     let password = req.query.password
     const connection = getConnection()
@@ -72,7 +72,7 @@ app.post('/rs/accounts/add', (req, res) => {
     })
 })
 
-app.put('/rs/accounts/:id/update', (req, res) => {
+router.put('/rs/accounts/:id/update', (req, res) => {
     let account_id = req.params.id
     let username = req.query.username
     let password = req.query.password
@@ -103,7 +103,7 @@ app.put('/rs/accounts/:id/update', (req, res) => {
     })
 })
 
-app.put('/rs/accounts/:id/osrs/update', (req, res) => {
+router.put('/rs/accounts/:id/osrs/update', (req, res) => {
     let account_id = req.params.id
     let last_ingame = req.query.last_ingame
     let bank_worth = req.query.bank_worth
@@ -174,7 +174,7 @@ app.put('/rs/accounts/:id/osrs/update', (req, res) => {
     })
 })
 
-app.put('/rs/accounts/:id/rs3/update', (req, res) => {
+router.put('/rs/accounts/:id/rs3/update', (req, res) => {
     let account_id = req.params.id
     let last_ingame = req.query.last_ingame
     let bank_worth = req.query.bank_worth
