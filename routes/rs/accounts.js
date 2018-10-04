@@ -1,6 +1,6 @@
 const express = require('express')
+const mysql = require('db.js')
 const body_parser = require('body-parser');
-const mysql = require('mysql')
 const router = express.Router()
 
 router.use(body_parser.json());
@@ -8,59 +8,36 @@ router.use(body_parser.urlencoded({
     extended: true
 }));
 
-function getPoolConnection() {
-    return mysql.createPool({
-        connectionLimit: 50,
-        host: 'localhost',
-        user: 'nodejs',
-        password: 'naZAus#u%+-F63Susvrt',
-        database: 'rs_accounts',
-        typeCast: function castField(field, useDefaultTypeCasting) {
-            if (field.type === "BIT" && field.length === 1) {
-                const bytes = field.buffer()
-                return (bytes[0] === 1)
-            }
-
-            return (useDefaultTypeCasting())
-        }
-    })
-}
-
-const pool_connection = getPoolConnection()
-
 router.get('/rs/accounts/unchecked', (req, res) => {
-    const connection = pool_connection
     const select_account = "SELECT * FROM account WHERE last_update IS NULL LIMIT 1"
-    connection.query(select_account, (error, results) => {
+    mysql(select_account, (error, results) => {
         if (error) throw error
         return res.json(results)
     })
 
-    pool_connection.release()
+    res.end()
 })
 
 router.get('/rs/accounts/:id', (req, res) => {
     let account_id = req.params.id
-    const connection = pool_connection
     const select_account = "SELECT * FROM account WHERE id = ?"
-    connection.query(select_account, [account_id], (error, results) => {
+    mysql(select_account, [account_id], (error, results) => {
         if (error) throw error
         return res.json(results)
     })
 
-    pool_connection.release()
+    res.end()
 })
 
 router.post('/rs/accounts/add', (req, res) => {
     let username = req.body.username
     let password = req.body.password
-    const connection = pool_connection
     const select_account = "SELECT username FROM account WHERE username = ?"
-    connection.query(select_account, [username], (error, results) => {
+    mysql(select_account, [username], (error, results) => {
         if (error) throw error
         if (results[0] == null) {
             const insert_account = "INSERT INTO account (username, password) VALUES (?, ?)"
-            connection.query(insert_account, [username, password], (error, results) => {
+            mysql(insert_account, [username, password], (error, results) => {
                 if (error) throw error
                 return res.json(results)
             })
@@ -72,7 +49,7 @@ router.post('/rs/accounts/add', (req, res) => {
         }
     })
 
-    pool_connection.release()
+    res.end()
 })
 
 router.put('/rs/accounts/:id/update', (req, res) => {
@@ -87,13 +64,12 @@ router.put('/rs/accounts/:id/update', (req, res) => {
     let is_locked = req.body.is_locked
     let is_auth = req.body.is_auth
     let is_invalid = req.body.is_invalid
-    const connection = pool_connection
     const update_account = "UPDATE account SET " +
         "username = ?, password = ?, display_name = ?," +
         "age = ?, is_members = b?, is_bank_pin = b?," +
         "is_banned = b?, is_locked = b?, is_auth = b?," +
         "is_invalid = b? WHERE id = ?"
-    connection.query(update_account, [username,
+    mysql(update_account, [username,
         password, display_name, age,
         is_members, is_bank_pin, is_banned,
         is_locked, is_auth, is_invalid,
@@ -102,7 +78,7 @@ router.put('/rs/accounts/:id/update', (req, res) => {
         return res.json(results)
     })
 
-    pool_connection.release()
+    res.end()
 })
 
 router.put('/rs/accounts/:id/osrs/update', (req, res) => {
@@ -141,7 +117,6 @@ router.put('/rs/accounts/:id/osrs/update', (req, res) => {
     let level_construction = req.body.level_construction
     let quest_points = req.body.quest_points
     let quests_complete = req.body.quests_complete
-    const connection = pool_connection
     const update_account = "UPDATE stats_osrs SET " +
         "last_ingame = ?, bank_worth = ?, inventory_worth = ?," +
         "equipment_worth = ?, position_x = ?, position_y = ?," +
@@ -155,7 +130,7 @@ router.put('/rs/accounts/:id/osrs/update', (req, res) => {
         "level_slayer = ?, level_farming = ?, level_runecrafting = ?," +
         "level_hunter = ?, level_construction = ?, quest_points = ?," +
         "quests_complete = ? WHERE account_id = ?"
-    connection.query(update_account, [last_ingame,
+    mysql(update_account, [last_ingame,
         bank_worth, inventory_worth, equipment_worth,
         position_x, position_y, position_z,
         level_total, level_combat, level_attack,
@@ -172,7 +147,7 @@ router.put('/rs/accounts/:id/osrs/update', (req, res) => {
         return res.json(results)
     })
 
-    pool_connection.release()
+    res.end()
 })
 
 router.put('/rs/accounts/:id/rs3/update', (req, res) => {
@@ -229,8 +204,7 @@ router.put('/rs/accounts/:id/rs3/update', (req, res) => {
         "level_hunter = ?, level_construction = ?, level_summoning = ?," +
         "level_dungeoneering = ?, level_divination = ?, level_invention = ?," +
         "quest_points = ?, quests_complete = ? WHERE account_id = ?"
-    const connection = pool_connection
-    connection.query(update_account, [last_ingame,
+    mysql(update_account, [last_ingame,
         bank_worth, inventory_worth, equipment_worth,
         position_x, position_y, position_z,
         level_total, level_combat, level_attack,
@@ -248,7 +222,7 @@ router.put('/rs/accounts/:id/rs3/update', (req, res) => {
         return res.json(results)
     })
 
-    pool_connection.release()
+    res.end()
 })
 
 module.exports = router
