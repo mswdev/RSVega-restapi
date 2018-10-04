@@ -26,10 +26,7 @@ const pool_connection = mysql.createPool({
 })
 
 function getConnection() {
-    pool_connection.getConnection(function(error, connection) {
-        if (error) throw error
-        return connection
-    })
+    return pool_connection
 }
 
 router.get('/rs/accounts/unchecked', (req, res) => {
