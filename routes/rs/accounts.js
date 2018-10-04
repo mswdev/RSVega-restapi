@@ -10,7 +10,7 @@ router.use(body_parser.urlencoded({
 
 function getPoolConnection() {
     return mysql.createPool({
-        connectionLimit: 10,
+        connectionLimit: 50,
         host: 'localhost',
         user: 'nodejs',
         password: 'naZAus#u%+-F63Susvrt',
