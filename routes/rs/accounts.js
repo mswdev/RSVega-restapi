@@ -26,10 +26,11 @@ const pool_connection = mysql.createPool({
 })
 
 router.get('/rs/accounts/unchecked', (req, res) => {
+    const select_account = "SELECT * FROM account WHERE last_update IS NULL LIMIT 1"
+
     pool_connection.getConnection((error, connection) => {
         if (error) throw error
-        const select_account = "SELECT * FROM account WHERE last_update IS NULL LIMIT 1"
-         connection.query(select_account, (error, results) => {
+        connection.query(select_account, (error, results) => {
             if (error) throw error
             return res.json(results).end()
         })
@@ -41,35 +42,43 @@ router.get('/rs/accounts/unchecked', (req, res) => {
 router.get('/rs/accounts/:id', (req, res) => {
     let account_id = req.params.id
     const select_account = "SELECT * FROM account WHERE id = ?"
-    getConnection().query(select_account, [account_id], (error, results) => {
-        if (error) throw error
-        return res.json(results).end()
-    })
 
-    getConnection().release()
+    pool_connection.getConnection((error, connection) => {
+        if (error) throw error
+        connection.query(select_account, [account_id], (error, results) => {
+            if (error) throw error
+            return res.json(results).end()
+        })
+
+        connection.release()
+    })
 })
 
 router.post('/rs/accounts/add', (req, res) => {
     let username = req.body.username
     let password = req.body.password
     const select_account = "SELECT username FROM account WHERE username = ?"
-    getConnection().query(select_account, [username], (error, results) => {
-        if (error) throw error
-        if (results[0] == null) {
-            const insert_account = "INSERT INTO account (username, password) VALUES (?, ?)"
-            getConnection().query(insert_account, [username, password], (error, results) => {
-                if (error) throw error
-                return res.json(results).end()
-            })
-        } else {
-            return res.status(400).send({
-                success: false,
-                message: 'The specified username already exists.'
-            }).end()
-        }
-    })
 
-    getConnection().release()
+    pool_connection.getConnection((error, connection) => {
+        if (error) throw error
+        connection.query(select_account, [username], (error, results) => {
+            if (error) throw error
+            if (results[0] == null) {
+                const insert_account = "INSERT INTO account (username, password) VALUES (?, ?)"
+                connection.query(insert_account, [username, password], (error, results) => {
+                    if (error) throw error
+                    return res.json(results).end()
+                })
+            } else {
+                return res.status(400).send({
+                    success: false,
+                    message: 'The specified username already exists.'
+                }).end()
+            }
+        })
+
+        connection.release()
+    })
 })
 
 router.put('/rs/accounts/:id/update', (req, res) => {
@@ -89,16 +98,20 @@ router.put('/rs/accounts/:id/update', (req, res) => {
         "age = ?, is_members = b?, is_bank_pin = b?," +
         "is_banned = b?, is_locked = b?, is_auth = b?," +
         "is_invalid = b? WHERE id = ?"
-    getConnection().query(update_account, [username,
-        password, display_name, age,
-        is_members, is_bank_pin, is_banned,
-        is_locked, is_auth, is_invalid,
-        account_id], (error, results) => {
-        if (error) throw error
-        return res.json(results).end()
-    })
 
-    getConnection().release()
+    pool_connection.getConnection((error, connection) => {
+        if (error) throw error
+        connection.query(update_account, [username,
+            password, display_name, age,
+            is_members, is_bank_pin, is_banned,
+            is_locked, is_auth, is_invalid,
+            account_id], (error, results) => {
+            if (error) throw error
+            return res.json(results).end()
+        })
+
+        connection.release()
+    })
 })
 
 router.put('/rs/accounts/:id/osrs/update', (req, res) => {
@@ -150,24 +163,28 @@ router.put('/rs/accounts/:id/osrs/update', (req, res) => {
         "level_slayer = ?, level_farming = ?, level_runecrafting = ?," +
         "level_hunter = ?, level_construction = ?, quest_points = ?," +
         "quests_complete = ? WHERE account_id = ?"
-    getConnection().query(update_account, [last_ingame,
-        bank_worth, inventory_worth, equipment_worth,
-        position_x, position_y, position_z,
-        level_total, level_combat, level_attack,
-        level_defence, level_strength, level_hitpoints,
-        level_ranged, level_prayer, level_magic,
-        level_cooking, level_woodcutting, level_fletching,
-        level_fishing, level_firemaking, level_crafting,
-        level_smithing, level_mining, level_herblore,
-        level_agility, level_thieving, level_slayer,
-        level_farming, level_runecrafting, level_hunter,
-        level_construction, quest_points, quests_complete,
-        account_id], (error, results) => {
-        if (error) throw error
-        return res.json(results).end()
-    })
 
-    getConnection().release()
+    pool_connection.getConnection((error, connection) => {
+        if (error) throw error
+        connection.query(update_account, [last_ingame,
+            bank_worth, inventory_worth, equipment_worth,
+            position_x, position_y, position_z,
+            level_total, level_combat, level_attack,
+            level_defence, level_strength, level_hitpoints,
+            level_ranged, level_prayer, level_magic,
+            level_cooking, level_woodcutting, level_fletching,
+            level_fishing, level_firemaking, level_crafting,
+            level_smithing, level_mining, level_herblore,
+            level_agility, level_thieving, level_slayer,
+            level_farming, level_runecrafting, level_hunter,
+            level_construction, quest_points, quests_complete,
+            account_id], (error, results) => {
+            if (error) throw error
+            return res.json(results).end()
+        })
+
+        connection.release()
+    })
 })
 
 router.put('/rs/accounts/:id/rs3/update', (req, res) => {
@@ -224,25 +241,29 @@ router.put('/rs/accounts/:id/rs3/update', (req, res) => {
         "level_hunter = ?, level_construction = ?, level_summoning = ?," +
         "level_dungeoneering = ?, level_divination = ?, level_invention = ?," +
         "quest_points = ?, quests_complete = ? WHERE account_id = ?"
-    getConnection().query(update_account, [last_ingame,
-        bank_worth, inventory_worth, equipment_worth,
-        position_x, position_y, position_z,
-        level_total, level_combat, level_attack,
-        level_defence, level_strength, level_hitpoints,
-        level_ranged, level_prayer, level_magic,
-        level_cooking, level_woodcutting, level_fletching,
-        level_fishing, level_firemaking, level_crafting,
-        level_smithing, level_mining, level_herblore,
-        level_agility, level_thieving, level_slayer,
-        level_farming, level_runecrafting, level_hunter,
-        level_construction, level_summoning, level_dungeoneering,
-        level_divination, level_invention, quest_points,
-        quests_complete, account_id], (error, results) => {
-        if (error) throw error
-        return res.json(results).end()
-    })
 
-    getConnection().release()
+    pool_connection.getConnection((error, connection) => {
+        if (error) throw error
+        connection.query(update_account, [last_ingame,
+            bank_worth, inventory_worth, equipment_worth,
+            position_x, position_y, position_z,
+            level_total, level_combat, level_attack,
+            level_defence, level_strength, level_hitpoints,
+            level_ranged, level_prayer, level_magic,
+            level_cooking, level_woodcutting, level_fletching,
+            level_fishing, level_firemaking, level_crafting,
+            level_smithing, level_mining, level_herblore,
+            level_agility, level_thieving, level_slayer,
+            level_farming, level_runecrafting, level_hunter,
+            level_construction, level_summoning, level_dungeoneering,
+            level_divination, level_invention, quest_points,
+            quests_complete, account_id], (error, results) => {
+            if (error) throw error
+            return res.json(results).end()
+        })
+
+        connection.release()
+    })
 })
 
 module.exports = router
