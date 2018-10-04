@@ -11,20 +11,25 @@
                 let line = lines[i].split(':')
                 let username = line[0]
                 let password = line[1]
+
+                console.log('Account #: ' + i)
                 sendAccountPost(username, password)
             }
-            console.log("TEST")
         }
 
         function sendAccountPost(username, password) {
+            $.ajaxSetup({
+                async: false,
+                cache: false,
+                timeout: 30000
+            });
             $.post('https://api.sphiinx.me/rs/accounts/add', {
                 username: username,
                 password: password
             }, function (results) {
                 console.log(results);
                 console.log('Account data POST successful: [Username: ' + username + ' | Password: ' + password + ']')
-            }, 'json').fail((error) => {
-                console.log(error)
+            }, 'json').fail(function () {
                 console.log('Account data POST failed: [Username: ' + username + ' | Password: ' + password + ']')
             });
         }
