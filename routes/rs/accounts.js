@@ -25,18 +25,17 @@ const pool_connection = mysql.createPool({
     }
 })
 
-function getConnection() {
-    return pool_connection
-}
-
 router.get('/rs/accounts/unchecked', (req, res) => {
-    const select_account = "SELECT * FROM account WHERE last_update IS NULL LIMIT 1"
-    getConnection().query(select_account, (error, results) => {
+    pool_connection.getConnection((error, connection) => {
         if (error) throw error
-        return res.json(results).end()
-    })
+        const select_account = "SELECT * FROM account WHERE last_update IS NULL LIMIT 1"
+         connection.query(select_account, (error, results) => {
+            if (error) throw error
+            return res.json(results).end()
+        })
 
-    getConnection().release()
+        connection.release()
+    })
 })
 
 router.get('/rs/accounts/:id', (req, res) => {
