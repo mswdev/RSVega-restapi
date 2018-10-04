@@ -26,7 +26,7 @@ const pool_connection = mysql.createPool({
 })
 
 function getConnection() {
-    pool_connection.getConnection((error, connection) => {
+    pool_connection.getConnection(function(error, connection) {
         if (error) throw error
         return connection
     })
