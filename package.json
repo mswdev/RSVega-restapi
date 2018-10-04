@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/Sphiinx/spx-restapi/issues"
   },
-  "homepage": "https://github.com/Sphiinx/spx-restapi#readme"
+  "homepage": "https://github.com/Sphiinx/spx-restapi#readme",
+  "dependencies": {
+    "cors": "^2.8.4"
+  }
 }
