@@ -26,29 +26,35 @@ function getPoolConnection() {
     })
 }
 
+const pool_connection = getPoolConnection()
+
 router.get('/rs/accounts/unchecked', (req, res) => {
-    const connection = getPoolConnection()
+    const connection = pool_connection
     const select_account = "SELECT * FROM account WHERE last_update IS NULL LIMIT 1"
     connection.query(select_account, (error, results) => {
         if (error) throw error
         return res.json(results)
     })
+
+    connection.release()
 })
 
 router.get('/rs/accounts/:id', (req, res) => {
     let account_id = req.params.id
-    const connection = getPoolConnection()
+    const connection = pool_connection
     const select_account = "SELECT * FROM account WHERE id = ?"
     connection.query(select_account, [account_id], (error, results) => {
         if (error) throw error
         return res.json(results)
     })
+
+    connection.release()
 })
 
 router.post('/rs/accounts/add', (req, res) => {
     let username = req.body.username
     let password = req.body.password
-    const connection = getPoolConnection()
+    const connection = pool_connection
     const select_account = "SELECT username FROM account WHERE username = ?"
     connection.query(select_account, [username], (error, results) => {
         if (error) throw error
@@ -65,6 +71,8 @@ router.post('/rs/accounts/add', (req, res) => {
             })
         }
     })
+
+    connection.release()
 })
 
 router.put('/rs/accounts/:id/update', (req, res) => {
@@ -79,7 +87,7 @@ router.put('/rs/accounts/:id/update', (req, res) => {
     let is_locked = req.body.is_locked
     let is_auth = req.body.is_auth
     let is_invalid = req.body.is_invalid
-    const connection = getPoolConnection()
+    const connection = pool_connection
     const update_account = "UPDATE account SET " +
         "username = ?, password = ?, display_name = ?," +
         "age = ?, is_members = b?, is_bank_pin = b?," +
@@ -93,6 +101,8 @@ router.put('/rs/accounts/:id/update', (req, res) => {
         if (error) throw error
         return res.json(results)
     })
+
+    connection.release()
 })
 
 router.put('/rs/accounts/:id/osrs/update', (req, res) => {
@@ -131,7 +141,7 @@ router.put('/rs/accounts/:id/osrs/update', (req, res) => {
     let level_construction = req.body.level_construction
     let quest_points = req.body.quest_points
     let quests_complete = req.body.quests_complete
-    const connection = getPoolConnection()
+    const connection = pool_connection
     const update_account = "UPDATE stats_osrs SET " +
         "last_ingame = ?, bank_worth = ?, inventory_worth = ?," +
         "equipment_worth = ?, position_x = ?, position_y = ?," +
@@ -161,6 +171,8 @@ router.put('/rs/accounts/:id/osrs/update', (req, res) => {
         if (error) throw error
         return res.json(results)
     })
+
+    connection.release()
 })
 
 router.put('/rs/accounts/:id/rs3/update', (req, res) => {
@@ -217,7 +229,7 @@ router.put('/rs/accounts/:id/rs3/update', (req, res) => {
         "level_hunter = ?, level_construction = ?, level_summoning = ?," +
         "level_dungeoneering = ?, level_divination = ?, level_invention = ?," +
         "quest_points = ?, quests_complete = ? WHERE account_id = ?"
-    const connection = getPoolConnection()
+    const connection = pool_connection
     connection.query(update_account, [last_ingame,
         bank_worth, inventory_worth, equipment_worth,
         position_x, position_y, position_z,
@@ -235,6 +247,8 @@ router.put('/rs/accounts/:id/rs3/update', (req, res) => {
         if (error) throw error
         return res.json(results)
     })
+
+    connection.release()
 })
 
 module.exports = router
