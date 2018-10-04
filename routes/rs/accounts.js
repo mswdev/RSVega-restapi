@@ -36,7 +36,7 @@ router.get('/rs/accounts/unchecked', (req, res) => {
         return res.json(results)
     })
 
-    connection.release()
+    pool_connection.release()
 })
 
 router.get('/rs/accounts/:id', (req, res) => {
@@ -48,7 +48,7 @@ router.get('/rs/accounts/:id', (req, res) => {
         return res.json(results)
     })
 
-    connection.release()
+    pool_connection.release()
 })
 
 router.post('/rs/accounts/add', (req, res) => {
@@ -72,7 +72,7 @@ router.post('/rs/accounts/add', (req, res) => {
         }
     })
 
-    connection.release()
+    pool_connection.release()
 })
 
 router.put('/rs/accounts/:id/update', (req, res) => {
@@ -102,7 +102,7 @@ router.put('/rs/accounts/:id/update', (req, res) => {
         return res.json(results)
     })
 
-    connection.release()
+    pool_connection.release()
 })
 
 router.put('/rs/accounts/:id/osrs/update', (req, res) => {
@@ -172,7 +172,7 @@ router.put('/rs/accounts/:id/osrs/update', (req, res) => {
         return res.json(results)
     })
 
-    connection.release()
+    pool_connection.release()
 })
 
 router.put('/rs/accounts/:id/rs3/update', (req, res) => {
@@ -248,7 +248,7 @@ router.put('/rs/accounts/:id/rs3/update', (req, res) => {
         return res.json(results)
     })
 
-    connection.release()
+    pool_connection.release()
 })
 
 module.exports = router
