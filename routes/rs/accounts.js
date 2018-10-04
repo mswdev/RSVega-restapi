@@ -1,12 +1,13 @@
 const express = require('express')
-const body_parser = require('body-parser');
+const mysql = require('mysql')
+const body_parser = require('body-parser')
 
 const router = express.Router()
 
-router.use(body_parser.json());
+router.use(body_parser.json())
 router.use(body_parser.urlencoded({
     extended: true
-}));
+}))
 
 const pool_connection = mysql.createPool({
     connectionLimit: 50,
