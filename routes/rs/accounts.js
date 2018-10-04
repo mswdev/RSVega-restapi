@@ -1,5 +1,5 @@
 const express = require('express')
-const mysql = require('db')
+const mysql = require('../../db')
 const body_parser = require('body-parser');
 const router = express.Router()
 

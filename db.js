@@ -1,5 +1,5 @@
 const mysql = require('mysql')
-const sql_connection = function sqlConnection(sql, values, next) {
+const sqlConnection = function sqlConnection(sql, values, next) {
     if (arguments.length === 2) {
         next = values;
         values = null;
@@ -21,7 +21,7 @@ const sql_connection = function sqlConnection(sql, values, next) {
         }
     })
 
-    pool_connection.connect((error) => {
+    pool_connection.getConnection((error) => {
         if (error) throw error
     });
 
@@ -32,4 +32,4 @@ const sql_connection = function sqlConnection(sql, values, next) {
     });
 }
 
-module.exports = sql_connection;
+module.exports = sqlConnection;
