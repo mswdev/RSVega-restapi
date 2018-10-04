@@ -26,18 +26,20 @@ const pool_connection = mysql.createPool({
 })
 
 function getConnection() {
-    return pool_connection
+    pool_connection.getConnection((error, connection) => {
+        if (error) throw error
+        return connection
+    })
 }
 
 router.get('/rs/accounts/unchecked', (req, res) => {
     const select_account = "SELECT * FROM account WHERE last_update IS NULL LIMIT 1"
     getConnection().query(select_account, (error, results) => {
         if (error) throw error
-        return res.json(results)
+        return res.json(results).end()
     })
 
-    getConnection().end()
-    res.end()
+    getConnection().release()
 })
 
 router.get('/rs/accounts/:id', (req, res) => {
@@ -45,11 +47,10 @@ router.get('/rs/accounts/:id', (req, res) => {
     const select_account = "SELECT * FROM account WHERE id = ?"
     getConnection().query(select_account, [account_id], (error, results) => {
         if (error) throw error
-        return res.json(results)
+        return res.json(results).end()
     })
 
-    getConnection().end()
-    res.end()
+    getConnection().release()
 })
 
 router.post('/rs/accounts/add', (req, res) => {
@@ -62,18 +63,17 @@ router.post('/rs/accounts/add', (req, res) => {
             const insert_account = "INSERT INTO account (username, password) VALUES (?, ?)"
             getConnection().query(insert_account, [username, password], (error, results) => {
                 if (error) throw error
-                return res.json(results)
+                return res.json(results).end()
             })
         } else {
             return res.status(400).send({
                 success: false,
                 message: 'The specified username already exists.'
-            })
+            }).end()
         }
     })
 
-    getConnection().end()
-    res.end()
+    getConnection().release()
 })
 
 router.put('/rs/accounts/:id/update', (req, res) => {
@@ -99,11 +99,10 @@ router.put('/rs/accounts/:id/update', (req, res) => {
         is_locked, is_auth, is_invalid,
         account_id], (error, results) => {
         if (error) throw error
-        return res.json(results)
+        return res.json(results).end()
     })
 
-    getConnection().end()
-    res.end()
+    getConnection().release()
 })
 
 router.put('/rs/accounts/:id/osrs/update', (req, res) => {
@@ -169,11 +168,10 @@ router.put('/rs/accounts/:id/osrs/update', (req, res) => {
         level_construction, quest_points, quests_complete,
         account_id], (error, results) => {
         if (error) throw error
-        return res.json(results)
+        return res.json(results).end()
     })
 
-    getConnection().end()
-    res.end()
+    getConnection().release()
 })
 
 router.put('/rs/accounts/:id/rs3/update', (req, res) => {
@@ -245,11 +243,10 @@ router.put('/rs/accounts/:id/rs3/update', (req, res) => {
         level_divination, level_invention, quest_points,
         quests_complete, account_id], (error, results) => {
         if (error) throw error
-        return res.json(results)
+        return res.json(results).end()
     })
 
-    getConnection().end()
-    res.end()
+    getConnection().release()
 })
 
 module.exports = router
