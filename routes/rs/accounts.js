@@ -10,7 +10,7 @@ router.use(body_parser.urlencoded({
 }))
 
 const pool_connection = mysql.createPool({
-    connectionLimit: 50,
+    connectionLimit: 75,
     host: 'localhost',
     user: 'nodejs',
     password: 'naZAus#u%+-F63Susvrt',
@@ -24,6 +24,8 @@ const pool_connection = mysql.createPool({
         return (useDefaultTypeCasting())
     }
 })
+
+router.use(express.static('./public'))
 
 router.get('/rs/accounts/unchecked', (req, res) => {
     const select_account = "SELECT * FROM account WHERE last_update IS NULL LIMIT 1"

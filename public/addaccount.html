@@ -23,7 +23,8 @@
             }, function (results) {
                 console.log(results);
                 console.log('Account data POST successful: [Username: ' + username + ' | Password: ' + password + ']')
-            }, 'json').fail(function () {
+            }, 'json').fail((error) => {
+                console.log(error)
                 console.log('Account data POST failed: [Username: ' + username + ' | Password: ' + password + ']')
             });
         }
