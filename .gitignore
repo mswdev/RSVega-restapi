@@ -14,7 +14,7 @@
 *.jar
 *.zip
 *.rar
-
+git status
 # Logs
 *.log
 ### Node template
