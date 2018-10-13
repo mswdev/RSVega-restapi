@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        function parseAccounts() {
+            let lines = document.getElementById('account_list').value.split('\n')
+            for (let i = 0; i < lines.length; i++) {
+                let line = lines[i].split(':')
+                let username = line[0]
+                let password = line[1]
+
+                console.log('Account #: ' + i)
+                sendAccountPost(username, password)
+            }
+        }
+
+        function sendAccountPost(username, password) {
+            $.ajaxSetup({
+                async: false,
+                cache: false,
+                timeout: 30000
+            });
+            $.post('https://api.sphiinx.me/rs/accounts/add', {
+                username: username,
+                password: password
+            }, function (results) {
+                console.log(results);
+                console.log('Account data POST successful: [Username: ' + username + ' | Password: ' + password + ']')
+            }, 'json').fail(function () {
+                console.log('Account data POST failed: [Username: ' + username + ' | Password: ' + password + ']')
+            });
+        }
+    </script>
+</head>
+<body>
+<div>
+    <textarea id="account_list" rows="25" cols="75"></textarea>
+    <input type="button" onclick="parseAccounts();" value="Add account(s)">
+</div>
+</body>
+</html>
