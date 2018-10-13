@@ -14,7 +14,7 @@ router.use(express.static('./public'))
 
 router.get('/rs/accounts/unchecked', (req, res) => {
     pool.get_connection(qb => {
-        qb.limit(1).get_where('account', {'last_check': null}, (err, rows) => {
+        qb.limit(1).order_by("id", "random").get_where('account', {'last_check': null}, (err, rows) => {
             qb.release()
             if (err) throw err
             return res.json(rows)
