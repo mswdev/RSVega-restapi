@@ -1,6 +1,6 @@
 const express = require('express');
 const body_parser = require('body-parser');
-const settings = require('');
+const settings = require('.././db.json');
 const pool = require('node-querybuilder').QueryBuilder(settings, 'mysql', 'pool');
 
 const router = express.Router();
