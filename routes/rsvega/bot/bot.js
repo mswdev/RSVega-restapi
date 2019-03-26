@@ -32,15 +32,7 @@ router.get('/rsvega/bot/:id', (req, res) => {
     })
 });
 
-router.post('/rsvega/bot/add', (req, res) => {
-    pool.get_connection(qb => {
-        qb.insert_ignore('bot', req.body, 'ON DUPLICATE KEY UPDATE id=id', (err, rows) => {
-            qb.release();
-            if (err) throw err;
-            return res.json(rows)
-        })
-    })
-});
+
 
 router.put('/rsvega/bot/:id/update', (req, res) => {
     pool.get_connection(qb => {
