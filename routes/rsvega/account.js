@@ -32,7 +32,7 @@ router.get('/rsvega/account/:username', (req, res) => {
 
 router.post('/rsvega/account/add', (req, res) => {
     pool.get_connection(qb => {
-        qb.insert_ignore('account', req.body, 'ON DUPLICATE KEY UPDATE id=id', (err, rows) => {
+        qb.insert_ignore('account', req.body, 'ON DUPLICATE KEY UPDATE username=username', (err, rows) => {
             qb.release();
             if (err) throw err;
             return res.json(rows)
