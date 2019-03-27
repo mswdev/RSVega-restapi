@@ -21,7 +21,7 @@ router.get('/rsvega/account/id/:id', (req, res) => {
     })
 });
 
-router.get('/rsvega/account/username/:username', (req, res) => {
+router.get('/rsvega/account/user/:username', (req, res) => {
     console.log("Running 2");
     pool.get_connection(qb => {
         console.log("here")
