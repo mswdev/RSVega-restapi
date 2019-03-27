@@ -20,6 +20,16 @@ router.get('/rsvega/account/:id', (req, res) => {
     })
 });
 
+router.get('/rsvega/account/:username', (req, res) => {
+    pool.get_connection(qb => {
+        qb.get_where('account', {username: req.params.username}, (err, rows) => {
+            qb.release();
+            if (err) throw err;
+            return res.json(rows)
+        })
+    })
+});
+
 router.post('/rsvega/account/add', (req, res) => {
     pool.get_connection(qb => {
         qb.insert_ignore('account', req.body, 'ON DUPLICATE KEY UPDATE id=id', (err, rows) => {
