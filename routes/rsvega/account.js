@@ -21,8 +21,9 @@ router.get('/rsvega/account/:id', (req, res) => {
 });
 
 router.get('/rsvega/account/:username', (req, res) => {
+    console.log("Running");
     pool.get_connection(qb => {
-        console.log(req.params.username);
+        console.log("Wtf: " + req.params.username);
         qb.get_where('account', {username: req.params.username}, (err, rows) => {
             qb.release();
             if (err) throw err;
