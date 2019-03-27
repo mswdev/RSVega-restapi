@@ -11,7 +11,6 @@ router.use(body_parser.urlencoded({
 }));
 
 router.get('/rsvega/account/id/:id', (req, res) => {
-    console.log("Running 1");
     pool.get_connection(qb => {
         qb.get_where('account', {id: req.params.id}, (err, rows) => {
             qb.release();
@@ -22,10 +21,7 @@ router.get('/rsvega/account/id/:id', (req, res) => {
 });
 
 router.get('/rsvega/account/user/:username', (req, res) => {
-    console.log("Running 2");
     pool.get_connection(qb => {
-        console.log("here")
-        console.log("Wtf: " + req.params.username);
         qb.get_where('account', {username: req.params.username}, (err, rows) => {
             qb.release();
             if (err) throw err;
