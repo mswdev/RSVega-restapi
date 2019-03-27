@@ -11,6 +11,7 @@ router.use(body_parser.urlencoded({
 }));
 
 router.get('/rsvega/account/:id', (req, res) => {
+    console.log("Running");
     pool.get_connection(qb => {
         qb.get_where('account', {id: req.params.id}, (err, rows) => {
             qb.release();
