@@ -10,7 +10,7 @@ router.use(body_parser.urlencoded({
     extended: true
 }));
 
-router.get('/rsvega/account/:id', (req, res) => {
+router.get('/rsvega/account/id/:id', (req, res) => {
     console.log("Running 1");
     pool.get_connection(qb => {
         qb.get_where('account', {id: req.params.id}, (err, rows) => {
@@ -21,7 +21,7 @@ router.get('/rsvega/account/:id', (req, res) => {
     })
 });
 
-router.get('/rsvega/account/:username', (req, res) => {
+router.get('/rsvega/account/username/:username', (req, res) => {
     console.log("Running 2");
     pool.get_connection(qb => {
         console.log("here")
@@ -44,7 +44,7 @@ router.post('/rsvega/account/add', (req, res) => {
     })
 });
 
-router.put('/rsvega/account/:id/update', (req, res) => {
+router.put('/rsvega/account/id/:id/update', (req, res) => {
     pool.get_connection(qb => {
         qb.update('account', req.body, {id: req.params.id}, (err, rows) => {
             qb.release();

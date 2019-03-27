@@ -20,7 +20,7 @@ router.post('/rsvega/bot/session/add', (req, res) => {
     })
 });
 
-router.put('/rsvega/bot/:id/session/update', (req, res) => {
+router.put('/rsvega/bot/id/:id/session/update', (req, res) => {
     pool.get_connection(qb => {
         qb.update('session', req.body, {id: req.params.id}, (err, rows) => {
             qb.release();
