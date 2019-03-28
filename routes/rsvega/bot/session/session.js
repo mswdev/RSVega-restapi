@@ -12,7 +12,7 @@ router.use(body_parser.urlencoded({
 
 router.get('/rsvega/bot/session/bot-id/:bot_id/newest', (req, res) => {
     pool.get_connection(qb => {
-        qb.limit(1).order_by("id", "ASC").get_where('session', {id: req.params.bot_id}, (err, rows) => {
+        qb.limit(1).order_by("id", "DESC").get_where('session', {id: req.params.bot_id}, (err, rows) => {
             qb.release();
             if (err) throw err;
             return res.json(rows)
