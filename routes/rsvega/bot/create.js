@@ -11,7 +11,7 @@ router.use(body_parser.urlencoded({
 }));
 
 router.get('/rsvega/bot/create', (req, res) => {
-    axios.default.get('https://api.sphiinx.me/rsvega/bot/1/')
+    axios.get('https://api.sphiinx.me/rsvega/bot/1/')
         .then(function (response) {
             console.log(response);
         })
