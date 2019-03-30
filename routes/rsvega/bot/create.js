@@ -12,10 +12,17 @@ router.use(body_parser.urlencoded({
 }));
 
 router.get('/rsvega/bot/create', (req, res) => {
-    getCaptchaKeyTimeout()
+    resquestCaptcha()
 });
 
-function postCaptchaKey() {
+function resquestCaptcha() {
+    var request_id = postCaptchaID()
+    setTimeout(function () {
+        return getCaptchaKey(request_id)
+    }, 35000);
+}
+
+function postCaptchaID() {
     axios.post('http://2captcha.com/in.php', {
         json: '1',
         key: captcha_api_key,
@@ -44,12 +51,6 @@ function getCaptchaKey(request_id) {
     }).catch(function (error) {
         return error;
     })
-}
-
-function getCaptchaKeyTimeout() {
-    setTimeout(function () {
-        return getCaptchaKey(postCaptchaKey())
-    }, 35000);
 }
 
 module.exports = router;
