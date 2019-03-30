@@ -1,6 +1,11 @@
 const express = require('express');
 const body_parser = require('body-parser');
 const axios = require('axios');
+const Client = require('@infosimples/node_two_captcha');
+client = new Client('fe920f0af037e534bb8180f0dbdec403', {
+    timeout: 60000,
+    polling: 5000,
+    throwErrors: false});
 
 const router = express.Router();
 
@@ -13,6 +18,12 @@ router.use(body_parser.urlencoded({
 }));
 
 router.get('/rsvega/bot/create', (req, res) => {
+    client.decodeRecaptchaV2({
+        googlekey: '6Lcsv3oUAAAAAGFhlKrkRb029OHio098bbeyi_Hv',
+        pageurl: create_bot_url
+    }).then(function(response) {
+        console.log(response.text);
+    });
     /*postCaptchaID()
         .then(function (response) {
             setTimeout(function () {

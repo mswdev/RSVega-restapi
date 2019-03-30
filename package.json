@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Sphiinx/spx-restapi#readme",
   "dependencies": {
+    "@infosimples/node_two_captcha": "^1.0.2",
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
