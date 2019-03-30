@@ -21,12 +21,7 @@ const client = new two_captcha_client(captcha_api_key, {
 });
 
 router.get('/rsvega/bot/create', (req, res) => {
-    request(options, function (error, response, body) {
-        if (error) throw new Error(error);
-
-        console.log(body);
-    });
-    /*getRecaptchaKey().then(function (response) {
+    getRecaptchaKey().then(function (response) {
         postCreateBot(response.text).then(function (response) {
             console.log("We made it");
             console.log(req.body.username);
@@ -35,7 +30,7 @@ router.get('/rsvega/bot/create', (req, res) => {
         }).catch(function (error) {
             return res.json(error)
         })
-    });*/
+    });
 });
 
 function getRecaptchaKey() {
@@ -45,24 +40,20 @@ function getRecaptchaKey() {
     });
 }
 
-var request = require("request");
-
-var options = { method: 'POST',
-    url: 'https://secure.runescape.com/m=account-creation/create_account',
-    headers:
-        { 'Postman-Token': 'a7a639f8-603e-4b4f-970b-12f8c011c28f',
-            'cache-control': 'no-cache' },
-    form:
-        { email1: 'rspeerdev120@gmail.com',
-            onlyOneEmail: '1',
-            password1: 'Killkid5',
-            onlyOnePassword: '1',
-            day: '27',
-            month: '07',
-            year: '1998',
-            'create-submit': 'create',
-            'g-recaptcha-response': '03AOLTBLSztzLJHGaz0E4vuZQz1xaKG9OC3Jo82ktTl_8bjGYXvcS23Tz3qelVnwiT57HzrnFhOG26cxHKp4xuCYdj5XA3QrYzydXa-5__HeQfbS8KxdtyIbkbLYMBv-TMcFWRGVgz9d1nb7ydn5QZBsxyMG0Ca9jaIkStj7fbdOtK2M--TJKuOnPeWpVAYmNP8Vy47hLUzzeia6m2X9Bpxw0l2VZVmx6x2edj-5TZKvm2ckwUDm2fM6qwZoVeGzzyWtQTAzkrXfugyiQ-tCrWwXrMqOMrTs4tzODAFKKHGds7lvhxfllxaWr97mcWNHarvLVSZJAVG6q15jKUzyDiYeponLAzbo54bL2ZtnS768qaEsX1HiwDIg28YqSamWtIYFG5SlmaOmW0',
-            undefined: undefined } };
-
+function postCreateBot(captcha_key, username, password) {
+    console.log('--------------------------------------------------------');
+    console.log(captcha_key)
+    return axios.post(create_bot_url, {
+        'email': username,
+        'onlyOneEmail': '1',
+        'password1': password,
+        'onlyOnePassword': '1',
+        'day': '27',
+        'month': '07',
+        'year': '1998',
+        'create-submit': 'create',
+        'g-recaptcha-response': captcha_key,
+    })
+}
 
 module.exports = router;
