@@ -14,12 +14,14 @@ router.use(body_parser.urlencoded({
 router.get('/rsvega/bot/create', (req, res) => {
     postCaptchaID()
         .then(function (response) {
-            setTimeout(getCaptchaKey(response.data.request)
-                .then(function (response) {
-                    console.log(response.data.request);
-                }).catch(function (error) {
+            setTimeout(function () {
+                getCaptchaKey(response.data.request)
+                    .then(function (response) {
+                        console.log(response.data.request);
+                    }).catch(function (error) {
                     console.log(error)
-                }), 30000)
+                })
+            }, 35000)
         }).catch(function (error) {
         return error
     });
@@ -28,9 +30,7 @@ router.get('/rsvega/bot/create', (req, res) => {
 function resquestCaptcha() {
     var request_id = postCaptchaID();
     console.log(request_id);
-    setTimeout(function () {
-        return getCaptchaKey(request_id)
-    }, 35000);
+
 }
 
 function postCaptchaID() {
