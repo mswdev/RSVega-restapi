@@ -35,7 +35,7 @@ function postCaptchaID() {
     }).then(function (response) {
         var test = response.data.request;
         console.log('2: ' + test)
-        return test;
+        return 'yeet';
     }).catch(function (error) {
         return error;
     })
