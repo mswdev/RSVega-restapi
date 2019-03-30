@@ -34,17 +34,49 @@ function getRecaptchaKey() {
     });
 }
 
+var options = {
+    method: 'POST',
+    url: 'https://secure.runescape.com/m=account-creation/create_account',
+    headers:
+        {
+            'Postman-Token': 'a7a639f8-603e-4b4f-970b-12f8c011c28f',
+            'cache-control': 'no-cache'
+        },
+    form:
+        {
+            email1: 'rspeerdev101@gmail.com',
+            onlyOneEmail: '1',
+            password1: 'Killkid5',
+            onlyOnePassword: '1',
+            day: '27',
+            month: '07',
+            year: '1998',
+            'create-submit': 'create',
+            'g-recaptcha-response': '',
+            undefined: undefined
+        }
+};
+
 function postCreateBot(captcha_key, username, password) {
-    return request(create_bot_url, {
-        email1: 'rspeerdev101@gmail.com',
-        onlyOneEmail: username,
-        password1: password,
-        onlyOnePassword: '1',
-        day: '27',
-        month: '07',
-        year: '1998',
-        'create-submit': 'create',
-        'g-recaptcha-response': captcha_key,
+    return request( {
+        method: 'POST',
+        url: 'https://secure.runescape.com/m=account-creation/create_account',
+        headers:
+            {
+                'Postman-Token': 'a7a639f8-603e-4b4f-970b-12f8c011c28f',
+                'cache-control': 'no-cache'
+            },
+        form: {
+            email1: 'rspeerdev101@gmail.com',
+            onlyOneEmail: username,
+            password1: password,
+            onlyOnePassword: '1',
+            day: '27',
+            month: '07',
+            year: '1998',
+            'create-submit': 'create',
+            'g-recaptcha-response': captcha_key,
+        }
     })
 }
 
