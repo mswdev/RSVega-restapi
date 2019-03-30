@@ -13,7 +13,8 @@ router.use(body_parser.urlencoded({
 }));
 
 router.get('/rsvega/bot/create', (req, res) => {
-    console.log(test())
+    var res = test();
+    console.log(res)
 });
 
 function test() {
