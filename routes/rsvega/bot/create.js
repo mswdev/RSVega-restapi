@@ -24,8 +24,8 @@ router.get('/rsvega/bot/create', (req, res) => {
     console.log(getRecaptchaKey())
 });
 
-function getRecaptchaKey() {
-    client.decodeRecaptchaV2({
+async function getRecaptchaKey() {
+    await client.decodeRecaptchaV2({
         googlekey: google_key,
         pageurl: create_bot_url
     }).then(function (response) {
