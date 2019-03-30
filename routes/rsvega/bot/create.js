@@ -67,8 +67,8 @@ function postCreateBot(captcha_key, username, password) {
                 'cache-control': 'no-cache'
             },
         form: {
-            email1: 'rspeerdev101@gmail.com',
-            onlyOneEmail: username,
+            email1: username,
+            onlyOneEmail: '1',
             password1: password,
             onlyOnePassword: '1',
             day: '27',
