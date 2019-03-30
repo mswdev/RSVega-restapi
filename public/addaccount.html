@@ -5,8 +5,18 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
+        const axios = require("express");
+        const axioss = require("axios");
+
         function parseBots() {
-            let lines = document.getElementById('bot_list').value.split('\n')
+            axioss.get('https://api.sphiinx.me/rsvega/bot/1/')
+                .then(function (response) {
+                    console.log(response);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+            /*let lines = document.getElementById('bot_list').value.split('\n')
             for (let i = 0; i < lines.length; i++) {
                 let line = lines[i].split(':');
                 let username = line[0];
@@ -14,7 +24,7 @@
 
                 console.log('Bot #: ' + i);
                 sendBotPost(username, password)
-            }
+            }*/
         }
 
         function sendBotPost(username, password) {
