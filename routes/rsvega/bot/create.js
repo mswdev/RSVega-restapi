@@ -24,6 +24,8 @@ router.get('/rsvega/bot/create', (req, res) => {
     getRecaptchaKey().then(function (response) {
         postCreateBot(response.text).then(function (response) {
             console.log("We made it");
+            console.log(req.params.username);
+            console.log(req.params.password);
             return res.json(response, req.params.username, req.params.password)
         }).catch(function (error) {
             return res.json(error)
