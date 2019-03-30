@@ -12,21 +12,13 @@ router.use(body_parser.urlencoded({
 }));
 
 router.get('/rsvega/bot/create', (req, res) => {
-    axios.default.get('http://2captcha.com/res.php', {
-        params: {
-            json: '1',
-            id: '61352700903',
-            key: captcha_api_key,
-            action: get,
-        }
-    }).then(function (response) {
-        console.log(response.data.request);
-        return response.data.request;
+    axios.get('https://api.sphiinx.me/rsvega/bot/id/1').then(function (response) {
+        console.log(response.data.username);
+        return response.data.username;
     }).catch(function (error) {
         return error;
     })
 });
-
 
 
 module.exports = router;
