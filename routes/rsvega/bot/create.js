@@ -65,21 +65,29 @@ function getCaptchaKey(request_id) {
     })
 }
 
+const requestBody = {
+    'theme': 'dual',
+    'email1': 'rspeerdev99@gmail.com',
+    'onlyOneEmail': '1',
+    'password1': 'Killkid5',
+    'onlyOnePassword': '1',
+    'day': '27',
+    'month': '07',
+    'year': '1998',
+    'create-submit': 'create',
+    'g-recaptcha-response': '',
+};
+
+const config = {
+    headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+    }
+};
+
 function postCreateBot(captcha_key) {
     console.log('--------------------------------------------------------')
     console.log(captcha_key)
-    return axios.post('https://secure.runescape.com/m=account-creation/create_account', {
-        'theme': 'dual',
-        'email1': 'rspeerdev99@gmail.com',
-        'onlyOneEmail': '1',
-        'password1': 'Killkid5',
-        'onlyOnePassword': '1',
-        'day': '27',
-        'month': '07',
-        'year': '1998',
-        'create-submit': 'create',
-        'g-recaptcha-response': '03AOLTBLQ6-q5NgtpYXzUQ5DbwXzyP7jhkvz-0Ksxi6X74FIBJH4RPo-Z-fNvwfRKPLHC17nOSzs78PUdNj-NbkeAC5V-8F7VjmxyiB1IazTN4Xacxln2sZF1bzncgASrpCqphKIcEnJKMOWcYJ6Zc5jN2onNc5ItTkcamTzUtHzwCjQaoabLd5YTOPQAHvnFEOPjSvXc8IdjVDHA4queIzJbWTR4mF7pRjJ5gZy9qIBtflNSine_5PbIcu_iQzTill20L5K1vnA18DT83lRnCOpjh8tHCIJ4XWf4EwnLhKAAh1JLmsZqn4NnAWQQvog7tN3VaTrEJKVxj-VOjjt1gVi8UJTa2b1IhJYMW_tPC3xx8UECJ40HXMLETf_6on-s3kpNZhv4_FlYq4Vqgszgy84ss8IV8RyABkw',
-    })
+    return axios.post('https://secure.runescape.com/m=account-creation/create_account', requestBody, config);
 }
 
 module.exports = router;
