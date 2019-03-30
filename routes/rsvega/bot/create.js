@@ -11,9 +11,18 @@ router.use(body_parser.urlencoded({
 }));
 
 router.get('/rsvega/bot/create', (req, res) => {
-    request.get('https://api.sphiinx.me/rsvega/bot/id/1').on('response', function(body) {
-        console.log(body) // 200
-    })
+        axios.get('https://api.sphiinx.me/rsvega/bot/id/1')
+            .then(function (response) {
+                // handle success
+                console.log(response);
+            })
+            .catch(function (error) {
+                // handle error
+                console.log(error);
+            })
+            .then(function () {
+                // always executed
+            });
 });
 
 
