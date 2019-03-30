@@ -21,15 +21,15 @@ const client = new two_captcha_client(captcha_api_key, {
 });
 
 router.get('/rsvega/bot/create', (req, res) => {
-    console.log(getRecaptchaKey())
+    getRecaptchaKey().then(function (response) {
+        return res.json(response.text)
+    });
 });
 
-async function getRecaptchaKey() {
-    await client.decodeRecaptchaV2({
+function getRecaptchaKey() {
+    return client.decodeRecaptchaV2({
         googlekey: google_key,
         pageurl: create_bot_url
-    }).then(function (response) {
-        return response.text
     });
 }
 
