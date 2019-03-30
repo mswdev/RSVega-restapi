@@ -21,9 +21,14 @@ const client = new two_captcha_client(captcha_api_key, {
 });
 
 router.get('/rsvega/bot/create', (req, res) => {
-    getRecaptchaKey().then(function (response) {
-        return res.json(postCreateBot(response.text, req.body.email, req.body.password))
+    request('http://www.google.com', function (error, response, body) {
+        console.log('error:', error); // Print the error if one occurred
+        console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+        console.log('body:', body); // Print the HTML for the Google homepage.
     });
+    /*getRecaptchaKey().then(function (response) {
+        return res.json(postCreateBot(response.text, req.body.email, req.body.password))
+    });*/
 });
 
 function getRecaptchaKey() {
@@ -50,6 +55,7 @@ function postCreateBot(captcha_key, email, password) {
         }
     }, function (error, response, body) {
         if (error) throw error;
+        console.log("Here");
         return response.data
     })
 }
