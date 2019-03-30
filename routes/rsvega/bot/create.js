@@ -32,7 +32,7 @@ function postCaptchaKey() {
 }
 
 function getCaptchaKey(request_id) {
-    axios.post('http://2captcha.com/res.php', {
+    axios.get('http://2captcha.com/res.php', {
         json: '1',
         id: request_id,
         key: captcha_api_key,
