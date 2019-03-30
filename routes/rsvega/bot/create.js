@@ -13,24 +13,29 @@ router.use(body_parser.urlencoded({
 }));
 
 router.get('/rsvega/bot/create', (req, res) => {
-    var res = test();
-    console.log(res)
-});
-
-function test() {
-    postCaptchaID()
+    postCreateBot('03AOLTBLRkMfn-Yqs9MvPAUAIW4Fn6-4BtqG6j6YhDMh0TfMmxJ_hkeA8NhYQdnQEPDC4Bpx8WLvvcBEW9CJZO3jA9njsZqs4YT8nVTz1lFAWFHeNV65H8UskU6MoUa6NxrDREUl-n4i_7t2FnpMiqXe-CjKuMN5lkUKZEXQP1qaNDK4Umc0EMkfR9XnHmdctWme_nVXiFxTiSbAODF204VT9LzN7bZVQyU5vRPSml1I0hHlBqjskZDI1lUb-C_jERa_2BBigwAxA1u_F10cKWK3LgmgPSrJgjZSTvY3yblWXG3RBgmi9d4ENieRbpfI-FjfPukq6ANzAJ5yC8HEFe1uedlsqB76X-5vfOxDytx1GAmwZHddnwI2XWXwUD9wFh-f7DG0TdThsg')
+    /*postCaptchaID()
         .then(function (response) {
             setTimeout(function () {
                 getCaptchaKey(response.data.request)
                     .then(function (response) {
-                        return response.data.request
+                        postCreateBot(response.data.request)
+                            .then(function (response) {
+                                return res.json(response.data)
+                            }).catch(function (error) {
+                            return error;
+                        })
                     }).catch(function (error) {
                     return error
                 })
             }, 35000)
         }).catch(function (error) {
         return error
-    });
+    });*/
+});
+
+function test() {
+
 }
 
 function postCaptchaID() {
@@ -58,7 +63,7 @@ function postCreateBot(captcha_key) {
     console.log('--------------------------------------------------------')
     console.log('Sending with captcha key: ' + captcha_key)
     return axios.post(create_bot_url, {
-        'email1': 'rspeerdev97@gmail.com',
+        'email1': 'rspeerdev98@gmail.com',
         'onlyOneEmail': '1',
         'password1': 'Killkid5',
         'onlyOnePassword': '1',
