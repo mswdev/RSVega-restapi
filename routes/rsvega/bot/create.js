@@ -10,7 +10,6 @@ router.use(body_parser.urlencoded({
 }));
 
 router.get('/rsvega/bot/create', (req, res) => {
-    //getCaptchaKey();
     axios.get('http://2captcha.com/res.php', {
         json: '1',
         id: '61352621840',
@@ -22,25 +21,6 @@ router.get('/rsvega/bot/create', (req, res) => {
     }).catch(function (error) {
         return error;
     })
-    //console.log(setTimeout(getCaptchaKey(postCaptchaKey()), 35000))
 });
-
-function postCaptchaKey() {
-    axios.post('http://2captcha.com/in.php', {
-        json: '1',
-        key: 'fe920f0af037e534bb8180f0dbdec403',
-        method: 'userrecaptcha',
-        googlekey: '6Lcsv3oUAAAAAGFhlKrkRb029OHio098bbeyi_Hv',
-        pageurl: 'https://secure.runescape.com/m=account-creation/create_account?theme=oldschool',
-    }).then(function (response) {
-        return response.data.request;
-    }).catch(function (error) {
-        return error;
-    })
-}
-
-function getCaptchaKey(request_id) {
-
-}
 
 module.exports = router;
