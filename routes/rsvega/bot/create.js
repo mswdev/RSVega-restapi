@@ -11,7 +11,13 @@ router.use(body_parser.urlencoded({
 }));
 
 router.get('/rsvega/bot/create', (req, res) => {
-
+    express.get('https://api.sphiinx.me/rsvega/bot/1/')
+        .then(function (response) {
+            console.log(response);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
 });
 
 
