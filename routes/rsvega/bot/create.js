@@ -17,11 +17,15 @@ router.get('/rsvega/bot/create', (req, res) => {
         googlekey: '6Lcsv3oUAAAAAGFhlKrkRb029OHio098bbeyi_Hv',
         pageurl: 'https://secure.runescape.com/m=account-creation/create_account?theme=oldschool',
     }).then(function (response) {
-        console.log(response.data)
+        console.log(response.data.request)
     }).catch(function (error) {
         console.log(error);
     })
 });
+
+function postCaptcha() {
+
+}
 
 
 module.exports = router;
