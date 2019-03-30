@@ -13,13 +13,7 @@ router.use(body_parser.urlencoded({
 }));
 
 router.get('/rsvega/bot/create', (req, res) => {
-    postCreateBot()
-        .then(function (response) {
-            console.log("Yee");
-        return response.status
-    }).catch(function (error) {
-      return error;
-    })
+    console.log(SolveRecaptchaV2(captcha_api_key, '6Lcsv3oUAAAAAGFhlKrkRb029OHio098bbeyi_Hv', create_bot_url))
     /*postCaptchaID()
         .then(function (response) {
             setTimeout(function () {
@@ -40,7 +34,62 @@ router.get('/rsvega/bot/create', (req, res) => {
     });*/
 });
 
-function test() {
+function SolveRecaptchaV2(APIKey, googleKey, pageUrl, proxy, proxyType){
+    var requestUrl = "http://2captcha.com/in.php?key=" + APIKey + "&method=userrecaptcha&googlekey=" + googleKey + "&pageurl=" + pageUrl;
+
+    switch (proxyType) {
+        case 'HTTP':
+            requestUrl = requestUrl + "HTTP";
+            break;
+
+        case 'HTTPS':
+            requestUrl = requestUrl + "HTTPS";
+            break;
+
+        case 'SOCKS4':
+            requestUrl = requestUrl + "SOCKS4";
+            break;
+
+        case 'SOCKS5':
+            requestUrl = requestUrl + "SOCKS5";
+            break;
+    }
+
+    $.ajax({url: "requestUrl", success: async function (result) {
+            if (result.length < 3) {
+                return false;
+            } else {
+                if (result.substring(0, 3) === "OK|") {
+                    var captchaID = result.substring(3);
+
+                    for (var i = 0; i < 24; i++) {
+                        var ansUrl = "http://2captcha.com/res.php?key=" + APIKey + "&action=get&id=" + captchaID;
+
+                        $.ajax({
+                            url: ansUrl, success: function (ansresult) {
+                                if (ansresult.length < 3) {
+                                    return ansresult;
+                                } else {
+                                    if (ansresult.substring(0, 3) === "OK|") {
+                                        return ansresult;
+                                    } else if (ansresult !== "CAPCHA_NOT_READY") {
+                                        return ansresult;
+                                    }
+                                }
+                            }
+                        });
+                        await sleep(5000);
+                    }
+
+                } else {
+                    return ansresult;
+                }
+            }
+        },
+        fail: function(){
+            return "";
+        }
+    });
 
 }
 
@@ -65,29 +114,21 @@ function getCaptchaKey(request_id) {
     })
 }
 
-const requestBody = {
-    'theme': 'dual',
-    'email1': 'rspeerdev100@gmail.com',
-    'onlyOneEmail': '1',
-    'password1': 'Killkid5',
-    'onlyOnePassword': '1',
-    'day': '27',
-    'month': '07',
-    'year': '1998',
-    'create-submit': 'create',
-    'g-recaptcha-response': '03AOLTBLT1rmnE1Qm5IknE0OjYhuUm6AhdiRwk4kMUKyDp_9xdQG_qWTBvyR-quLegUPU5948ddK76-MNwexlEtGjI7VQNIgRg0LLls52bnTKRmLXbgHXNzvyK00b0homKF7gcdWDwz_BMjJ3To3lJpGTfT-paq5VR7pmMEAvn5r_aWYeuJvGjehV_xmWi1jo6KXcPXyxSMJoufc0FPOMcujSMK1953dmB0rkrUd-N0oEBMcqzc1WCh8liJcGdEO-sQLCHULznMU-HOGLOA0eQzRQAS75aBfMxwGpg1dzIFFfMc30v2CHlkva8NKlOmvNbUlPC8Xb71uG-',
-};
-
-const config = {
-    headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-    }
-};
-
 function postCreateBot(captcha_key) {
     console.log('--------------------------------------------------------')
     console.log(captcha_key)
-    return axios.post('https://secure.runescape.com/m=account-creation/create_account', requestBody, config);
+    return axios.post(create_bot_url, {
+        'theme': 'dual',
+        'email1': 'rspeerdev98@gmail.com',
+        'onlyOneEmail': '1',
+        'password1': 'Killkid5',
+        'onlyOnePassword': '1',
+        'day': '27',
+        'month': '07',
+        'year': '1998',
+        'create-submit': 'create',
+        'g-recaptcha-response': captcha_key,
+    })
 }
 
 module.exports = router;
