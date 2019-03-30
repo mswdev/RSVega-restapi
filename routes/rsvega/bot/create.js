@@ -14,24 +14,11 @@ router.use(body_parser.urlencoded({
 router.get('/rsvega/bot/create', (req, res) => {
     postCaptchaID()
         .then(function (response) {
-            setTimeout(function () {
-                getCaptchaKey(response.data.request)
-                    .then(function (response) {
-                        return res.json(response.data.request)
-                    }).catch(function (error) {
-                    return error
-                })
-            }, 35000)
+            return parseCaptchaID(response.data.request)
         }).catch(function (error) {
         return error
     });
 });
-
-function resquestCaptcha() {
-    var request_id = postCaptchaID();
-    console.log(request_id);
-
-}
 
 function postCaptchaID() {
     return axios.post('http://2captcha.com/in.php', {
@@ -41,6 +28,17 @@ function postCaptchaID() {
         googlekey: '6Lcsv3oUAAAAAGFhlKrkRb029OHio098bbeyi_Hv',
         pageurl: 'https://secure.runescape.com/m=account-creation/create_account?theme=oldschool',
     })
+}
+
+function parseCaptchaID(request_id) {
+    setTimeout(function () {
+        getCaptchaKey(request_id)
+            .then(function (response) {
+                return res.json(response.data.request)
+            }).catch(function (error) {
+            return error
+        })
+    }, 35000)
 }
 
 function getCaptchaKey(request_id) {
