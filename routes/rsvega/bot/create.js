@@ -14,6 +14,12 @@ router.use(body_parser.urlencoded({
 
 router.get('/rsvega/bot/create', (req, res) => {
     postCreateBot()
+        .then(function (response) {
+            console.log("Yee");
+        return response.status
+    }).catch(function (error) {
+      return error;
+    })
     /*postCaptchaID()
         .then(function (response) {
             setTimeout(function () {
@@ -72,7 +78,7 @@ function postCreateBot(captcha_key) {
         'month': '07',
         'year': '1998',
         'create-submit': 'create',
-        'g-recaptcha-response': '03AOLTBLQk0wgPDmQnGMM8TxOvUIilPxYIVfvrt1k-n6O92T5XHg4iq1d0wZyl-VeSmBWkUoi6sGwPWlDwmQbo2fK5tYai1iEg5KkGmO45uwgefwWb6GnhIbeRg07ywezUNRWAWndtL0ezyG4SdW2NavZLtb4Qkq1-YLc3w9t4Qkt_YssXJlpv_nBtLw_NiEWy7Nl4VC2Kps9z6D2run3qCIskz5jU7DaKLmwb4mcy7KPF_KuOW9LHG_qsx9lwuu6v1v3KkG7LfnLhoG9CMDW-R1j8HIEhoqxwsn-IzwSoftQzm2PUzg6CRE1nuYOfBvlwwBOSr3HjGTXxg7huchyRgoSWZtdT604sOP2ZqBSdB_IxxeQyESlb225-CJz7JO2ng-im4WaLOqUA4cEtL6Scs-I5Ubg3kr0Nxw',
+        'g-recaptcha-response': '03AOLTBLQ6-q5NgtpYXzUQ5DbwXzyP7jhkvz-0Ksxi6X74FIBJH4RPo-Z-fNvwfRKPLHC17nOSzs78PUdNj-NbkeAC5V-8F7VjmxyiB1IazTN4Xacxln2sZF1bzncgASrpCqphKIcEnJKMOWcYJ6Zc5jN2onNc5ItTkcamTzUtHzwCjQaoabLd5YTOPQAHvnFEOPjSvXc8IdjVDHA4queIzJbWTR4mF7pRjJ5gZy9qIBtflNSine_5PbIcu_iQzTill20L5K1vnA18DT83lRnCOpjh8tHCIJ4XWf4EwnLhKAAh1JLmsZqn4NnAWQQvog7tN3VaTrEJKVxj-VOjjt1gVi8UJTa2b1IhJYMW_tPC3xx8UECJ40HXMLETf_6on-s3kpNZhv4_FlYq4Vqgszgy84ss8IV8RyABkw',
     })
 }
 
