@@ -31,8 +31,8 @@ function postCaptchaID() {
         googlekey: '6Lcsv3oUAAAAAGFhlKrkRb029OHio098bbeyi_Hv',
         pageurl: 'https://secure.runescape.com/m=account-creation/create_account?theme=oldschool',
     }).then(function (response) {
-        console.log(response.data.request)
-        return response.data.request;
+        console.log(response.data.request);
+        return response.data.request.toString();
     }).catch(function (error) {
         return error;
     })
