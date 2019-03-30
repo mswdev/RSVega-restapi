@@ -39,7 +39,7 @@ function getRecaptchaKey() {
 }
 
 function postCreateBot(captcha_key, username, password) {
-    request(create_bot_url, {
+    return request(create_bot_url, {
         email1: 'rspeerdev101@gmail.com',
         onlyOneEmail: username,
         password1: password,
