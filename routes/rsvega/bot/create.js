@@ -13,18 +13,16 @@ router.use(body_parser.urlencoded({
 }));
 
 router.get('/rsvega/bot/create', (req, res) => {
+    console.log(test())
+});
+
+function test() {
     postCaptchaID()
         .then(function (response) {
             setTimeout(function () {
                 getCaptchaKey(response.data.request)
                     .then(function (response) {
-                        console.log(response.data.request);
-                        postCreateBot(response.data.request)
-                            .then(function (response) {
-                                return res.json(response.data)
-                            }).catch(function (error) {
-                            return error;
-                        })
+                        return response.data.request
                     }).catch(function (error) {
                     return error
                 })
@@ -32,7 +30,7 @@ router.get('/rsvega/bot/create', (req, res) => {
         }).catch(function (error) {
         return error
     });
-});
+}
 
 function postCaptchaID() {
     return axios.post('http://2captcha.com/in.php', {
