@@ -57,7 +57,7 @@ function getCaptchaKey(request_id) {
 }
 
 function postCreateBot(captcha_key) {
-    return axios.post(create_bot_url), {
+    return axios.post(create_bot_url, {
         'email1': 'rspeerdev96@gmail.com',
         'onlyOneEmail': '1',
         'password1': 'Killkid5',
@@ -67,7 +67,7 @@ function postCreateBot(captcha_key) {
         'year': '1998',
         'create-submit': 'create',
         'g-recaptcha-response': captcha_key,
-    }
+    })
 }
 
 module.exports = router;
