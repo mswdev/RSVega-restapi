@@ -9,6 +9,7 @@
         const axioss = require("axios");
 
         function parseBots() {
+            console.log('We here');
             axioss.get('https://api.sphiinx.me/rsvega/bot/1/')
                 .then(function (response) {
                     console.log(response);
