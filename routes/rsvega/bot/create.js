@@ -24,7 +24,7 @@ router.get('/rsvega/bot/create', (req, res) => {
     getRecaptchaKey().then(function (response) {
         postCreateBot(response.text).then(function (response) {
             console.log("We made it");
-            return res.json(response)
+            return res.json(response, req.params.username, req.params.password)
         }).catch(function (error) {
             return res.json(error)
         })
@@ -38,14 +38,14 @@ function getRecaptchaKey() {
     });
 }
 
-function postCreateBot(captcha_key) {
+function postCreateBot(captcha_key, username, password) {
     console.log('--------------------------------------------------------')
     console.log(captcha_key)
     return axios.post(create_bot_url, {
         'theme': 'dual',
-        'email1': 'rspeerdev98@gmail.com',
+        'email1': username,
         'onlyOneEmail': '1',
-        'password1': 'Killkid5',
+        'password1': password,
         'onlyOnePassword': '1',
         'day': '27',
         'month': '07',
