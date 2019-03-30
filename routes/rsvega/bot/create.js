@@ -4,7 +4,7 @@ const axios = require('axios');
 
 const router = express.Router();
 
-const captcha_api_key = fe920f0af037e534bb8180f0dbdec403;
+const captcha_api_key = 'fe920f0af037e534bb8180f0dbdec403';
 
 router.use(body_parser.json());
 router.use(body_parser.urlencoded({
