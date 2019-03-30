@@ -22,27 +22,7 @@ const client = new two_captcha_client(captcha_api_key, {
 
 router.get('/rsvega/bot/create', (req, res) => {
     getRecaptchaKey().then(function (response) {
-        /*return res.json(postCreateBot(response.text, req.body.email, req.body.password))*/
-        request(null, {
-            method: 'POST',
-            url: create_bot_url,
-            form: {
-                email1: req.body.email,
-                onlyOneEmail: '1',
-                password1: req.body.password,
-                onlyOnePassword: '1',
-                day: '27',
-                month: '07',
-                year: '1998',
-                'create-submit': 'create',
-                'g-recaptcha-response': response.text,
-            }
-        }, function (error, response, body) {
-            if (error) throw error;
-            console.log('error:', error); // Print the error if one occurred
-            console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-            console.log('body:', body); // Print the HTML for the Google homepage.
-        })
+        return res.json(postCreateBot(response.text, req.body.email, req.body.password))
     });
 });
 
@@ -70,10 +50,7 @@ function postCreateBot(captcha_key, email, password) {
         }
     }, function (error, response, body) {
         if (error) throw error;
-        console.log('error:', error); // Print the error if one occurred
-        console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-        console.log('body:', body); // Print the HTML for the Google homepage.
-        return response.data
+        return response.body
     })
 }
 
