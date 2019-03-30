@@ -13,7 +13,7 @@ router.use(body_parser.urlencoded({
 }));
 
 router.get('/rsvega/bot/create', (req, res) => {
-    postCreateBot('03AOLTBLRkMfn-Yqs9MvPAUAIW4Fn6-4BtqG6j6YhDMh0TfMmxJ_hkeA8NhYQdnQEPDC4Bpx8WLvvcBEW9CJZO3jA9njsZqs4YT8nVTz1lFAWFHeNV65H8UskU6MoUa6NxrDREUl-n4i_7t2FnpMiqXe-CjKuMN5lkUKZEXQP1qaNDK4Umc0EMkfR9XnHmdctWme_nVXiFxTiSbAODF204VT9LzN7bZVQyU5vRPSml1I0hHlBqjskZDI1lUb-C_jERa_2BBigwAxA1u_F10cKWK3LgmgPSrJgjZSTvY3yblWXG3RBgmi9d4ENieRbpfI-FjfPukq6ANzAJ5yC8HEFe1uedlsqB76X-5vfOxDytx1GAmwZHddnwI2XWXwUD9wFh-f7DG0TdThsg')
+    postCreateBot()
     /*postCaptchaID()
         .then(function (response) {
             setTimeout(function () {
@@ -61,9 +61,10 @@ function getCaptchaKey(request_id) {
 
 function postCreateBot(captcha_key) {
     console.log('--------------------------------------------------------')
-    console.log('Sending with captcha key: ' + captcha_key)
-    return axios.post(create_bot_url, {
-        'email1': 'rspeerdev98@gmail.com',
+    console.log(captcha_key)
+    return axios.post('https://secure.runescape.com/m=account-creation/create_account', {
+        'theme': 'dual',
+        'email1': 'rspeerdev99@gmail.com',
         'onlyOneEmail': '1',
         'password1': 'Killkid5',
         'onlyOnePassword': '1',
@@ -71,7 +72,7 @@ function postCreateBot(captcha_key) {
         'month': '07',
         'year': '1998',
         'create-submit': 'create',
-        'g-recaptcha-response': captcha_key,
+        'g-recaptcha-response': '03AOLTBLQk0wgPDmQnGMM8TxOvUIilPxYIVfvrt1k-n6O92T5XHg4iq1d0wZyl-VeSmBWkUoi6sGwPWlDwmQbo2fK5tYai1iEg5KkGmO45uwgefwWb6GnhIbeRg07ywezUNRWAWndtL0ezyG4SdW2NavZLtb4Qkq1-YLc3w9t4Qkt_YssXJlpv_nBtLw_NiEWy7Nl4VC2Kps9z6D2run3qCIskz5jU7DaKLmwb4mcy7KPF_KuOW9LHG_qsx9lwuu6v1v3KkG7LfnLhoG9CMDW-R1j8HIEhoqxwsn-IzwSoftQzm2PUzg6CRE1nuYOfBvlwwBOSr3HjGTXxg7huchyRgoSWZtdT604sOP2ZqBSdB_IxxeQyESlb225-CJz7JO2ng-im4WaLOqUA4cEtL6Scs-I5Ubg3kr0Nxw',
     })
 }
 
