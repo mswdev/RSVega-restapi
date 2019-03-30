@@ -12,9 +12,7 @@ router.use(body_parser.urlencoded({
 }));
 
 router.get('/rsvega/bot/create', (req, res) => {
-    postCaptchaID(function (result) {
-        console.log(result)
-    })
+
     //resquestCaptcha()
 });
 
@@ -34,9 +32,8 @@ function postCaptchaID() {
         googlekey: '6Lcsv3oUAAAAAGFhlKrkRb029OHio098bbeyi_Hv',
         pageurl: 'https://secure.runescape.com/m=account-creation/create_account?theme=oldschool',
     }).then(function (response) {
-        var test = response.data.request;
-        console.log('2: ' + test)
-        return 'yeet';
+        console.log(response.data.request)
+        return response.data.request;
     }).catch(function (error) {
         return error;
     })
