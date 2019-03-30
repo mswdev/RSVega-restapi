@@ -12,7 +12,7 @@ router.use(body_parser.urlencoded({
 }));
 
 router.get('/rsvega/bot/create', (req, res) => {
-
+    console.log(postCaptchaID());
     //resquestCaptcha()
 });
 
@@ -24,7 +24,7 @@ function resquestCaptcha() {
     }, 35000);
 }
 
-function postCaptchaID() {
+async function postCaptchaID() {
     axios.post('http://2captcha.com/in.php', {
         json: '1',
         key: captcha_api_key,
