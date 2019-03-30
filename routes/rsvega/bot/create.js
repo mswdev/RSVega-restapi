@@ -1,68 +1,36 @@
 const express = require('express');
 const body_parser = require('body-parser');
 const axios = require('axios');
-const Client = require('@infosimples/node_two_captcha');
-client = new Client('fe920f0af037e534bb8180f0dbdec403', {
-    timeout: 60000,
-    polling: 5000,
-    throwErrors: false});
-
-const router = express.Router();
+const two_captcha_client = require('@infosimples/node_two_captcha');
 
 const captcha_api_key = 'fe920f0af037e534bb8180f0dbdec403';
+const google_key = '6Lcsv3oUAAAAAGFhlKrkRb029OHio098bbeyi_Hv';
 const create_bot_url = 'https://secure.runescape.com/m=account-creation/create_account';
+
+const router = express.Router();
 
 router.use(body_parser.json());
 router.use(body_parser.urlencoded({
     extended: true
 }));
 
-router.get('/rsvega/bot/create', (req, res) => {
-    client.decodeRecaptchaV2({
-        googlekey: '6Lcsv3oUAAAAAGFhlKrkRb029OHio098bbeyi_Hv',
-        pageurl: create_bot_url
-    }).then(function(response) {
-        console.log(response.text);
-    });
-    /*postCaptchaID()
-        .then(function (response) {
-            setTimeout(function () {
-                getCaptchaKey(response.data.request)
-                    .then(function (response) {
-                        postCreateBot(response.data.request)
-                            .then(function (response) {
-                                return res.json(response.data)
-                            }).catch(function (error) {
-                            return error;
-                        })
-                    }).catch(function (error) {
-                    return error
-                })
-            }, 35000)
-        }).catch(function (error) {
-        return error
-    });*/
+const client = new two_captcha_client(captcha_api_key, {
+    timeout: 60000,
+    polling: 5000,
+    throwErrors: false
 });
 
-function postCaptchaID() {
-    return axios.post('http://2captcha.com/in.php', {
-        'json': '1',
-        'key': captcha_api_key,
-        'method': 'userrecaptcha',
-        'googlekey': '6Lcsv3oUAAAAAGFhlKrkRb029OHio098bbeyi_Hv',
-        'pageurl': create_bot_url,
-    })
-}
+router.get('/rsvega/bot/create', (req, res) => {
+    console.log(getRecaptchaKey())
+});
 
-function getCaptchaKey(request_id) {
-    return axios.get('http://2captcha.com/res.php', {
-        params: {
-            'json': '1',
-            'id': request_id,
-            'key': captcha_api_key,
-            'action': 'get',
-        }
-    })
+function getRecaptchaKey() {
+    client.decodeRecaptchaV2({
+        googlekey: google_key,
+        pageurl: create_bot_url
+    }).then(function (response) {
+        return response.text
+    });
 }
 
 function postCreateBot(captcha_key) {
