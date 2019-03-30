@@ -12,7 +12,7 @@ router.use(body_parser.urlencoded({
 }));
 
 router.get('/rsvega/bot/create', (req, res) => {
-   getCaptchaKey()
+    setTimeout(getCaptchaKey, 10000)
 });
 
 function postCaptchaKey() {
