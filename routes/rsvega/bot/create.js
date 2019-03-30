@@ -16,7 +16,7 @@ router.get('/rsvega/bot/create', (req, res) => {
 });
 
 function resquestCaptcha() {
-    var request_id = postCaptchaID()
+    var request_id = postCaptchaID();
     setTimeout(function () {
         return getCaptchaKey(request_id)
     }, 35000);
@@ -38,6 +38,7 @@ function postCaptchaID() {
 }
 
 function getCaptchaKey(request_id) {
+    console.log(request_id);
     axios.get('http://2captcha.com/res.php', {
         params: {
             json: '1',
