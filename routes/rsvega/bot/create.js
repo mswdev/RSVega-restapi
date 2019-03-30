@@ -21,7 +21,12 @@ const client = new two_captcha_client(captcha_api_key, {
 });
 
 router.get('/rsvega/bot/create', (req, res) => {
-    getRecaptchaKey().then(function (response) {
+    request(options, function (error, response, body) {
+        if (error) throw new Error(error);
+
+        console.log(body);
+    });
+    /*getRecaptchaKey().then(function (response) {
         postCreateBot(response.text).then(function (response) {
             console.log("We made it");
             console.log(req.body.username);
@@ -30,7 +35,7 @@ router.get('/rsvega/bot/create', (req, res) => {
         }).catch(function (error) {
             return res.json(error)
         })
-    });
+    });*/
 });
 
 function getRecaptchaKey() {
@@ -40,21 +45,24 @@ function getRecaptchaKey() {
     });
 }
 
-function postCreateBot(captcha_key, username, password) {
-    console.log('--------------------------------------------------------')
-    console.log(captcha_key)
-    return axios.post(create_bot_url, {
-        'theme': 'dual',
-        'email1': username,
-        'onlyOneEmail': '1',
-        'password1': password,
-        'onlyOnePassword': '1',
-        'day': '27',
-        'month': '07',
-        'year': '1998',
-        'create-submit': 'create',
-        'g-recaptcha-response': captcha_key,
-    })
-}
+var request = require("request");
+
+var options = { method: 'POST',
+    url: 'https://secure.runescape.com/m=account-creation/create_account',
+    headers:
+        { 'Postman-Token': 'a7a639f8-603e-4b4f-970b-12f8c011c28f',
+            'cache-control': 'no-cache' },
+    form:
+        { email1: 'rspeerdev101@gmail.com',
+            onlyOneEmail: '1',
+            password1: 'Killkid5',
+            onlyOnePassword: '1',
+            day: '27',
+            month: '07',
+            year: '1998',
+            'create-submit': 'create',
+            'g-recaptcha-response': '03AOLTBLRLkJ_YB4BmBHXgb5zf6YNSIHkG-sh7JQLqrgX8now9QvFWTM82wbibRv0GuXDB49kG1uaoBQBtdtdLtYud6VAJGOruAISIr6oIWCdIRnMHKjoCrsJmOMIsJBD_VdbVJMyDuk_Prbu5zzO3jUkr6GJPB8n4eM55IsIMNE9BskEerIgN0u_dFp7GNuNdUTi0WS037yZqIYP4KnCPJUPkg5-Ts6hDGL82CzjD_-qqKq6JcZezujqGz1SDhffimK0-S4yto-7ieIUY4vewSdDptGc3vsFu9-zoACH4AoMf3pAnzEgnjpiThjfwp5VtpGJqQJHn1fpM5v5Hh_Tp5AUD7-p_B4ksWUPWm0_oW_Cmp7T-ppp-WwJnyE2Zu6zc6VBcZ18WxQbT',
+            undefined: undefined } };
+
 
 module.exports = router;
