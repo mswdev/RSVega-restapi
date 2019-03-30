@@ -12,8 +12,11 @@ router.use(body_parser.urlencoded({
 }));
 
 router.get('/rsvega/bot/create', (req, res) => {
-    getCaptchaKey(61352700903)
-    //setTimeout(getCaptchaKey(postCaptchaKey()), 35000);
+    getCaptchaKeyTimeout();
+    /*if (getCaptchaKeyTimeout().status === 0)
+        getCaptchaKeyTimeout();
+    else
+        console.log("SUCCESS")*/
 });
 
 function postCaptchaKey() {
@@ -41,10 +44,14 @@ function getCaptchaKey(request_id) {
         }
     }).then(function (response) {
         console.log(response.data.request);
-        return response.data.request;
+        return response.data;
     }).catch(function (error) {
         return error;
     })
+}
+
+function getCaptchaKeyTimeout() {
+    return setTimeout(getCaptchaKey(postCaptchaKey()), 35000);
 }
 
 module.exports = router;
