@@ -1,7 +1,6 @@
 const express = require('express');
 const body_parser = require('body-parser');
-const axios = require('axios');
-
+const request = require('request');
 
 const router = express.Router();
 
@@ -11,9 +10,10 @@ router.use(body_parser.urlencoded({
 }));
 
 router.get('/rsvega/bot/create', (req, res) => {
-    router.get('https://api.sphiinx.me/rsvega/bot/1/', (req, res) => {
-        console.log(res)
-    });
+    request.get('https://api.sphiinx.me/rsvega/bot/id/1').on('response', function(response) {
+        console.log(response.statusCode) // 200
+        console.log('yeet')
+    })
 });
 
 
