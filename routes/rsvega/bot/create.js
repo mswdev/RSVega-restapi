@@ -11,7 +11,9 @@ router.use(body_parser.urlencoded({
 }));
 
 router.get('/rsvega/bot/create', (req, res) => {
-    console.log(request.get('https://api.sphiinx.me/rsvega/bot/id/1').toJSON())
+    request.get('https://api.sphiinx.me/rsvega/bot/id/1').on('response', function(response) {
+        console.log(response.body.toString()) // 200
+    })
 });
 
 
