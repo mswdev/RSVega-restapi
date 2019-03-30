@@ -22,8 +22,10 @@ const client = new two_captcha_client(captcha_api_key, {
 
 router.get('/rsvega/bot/create', (req, res) => {
     getRecaptchaKey().then(function (response) {
-        postCreateBot(response.text, req.body.email, req.body.password)
-        return res.json('SUCCESS');
+        postCreateBot(response.text, req.body.email, req.body.password, function (error, response, body) {
+            if (error) throw error;
+            return res.json(response.data)
+        })
     });
 });
 
@@ -35,9 +37,9 @@ function getRecaptchaKey() {
 }
 
 function postCreateBot(captcha_key, email, password) {
-    return request( {
+    return request({
         method: 'POST',
-        url: 'https://secure.runescape.com/m=account-creation/create_account',
+        url: create_bot_url,
         form: {
             email1: email,
             onlyOneEmail: '1',
