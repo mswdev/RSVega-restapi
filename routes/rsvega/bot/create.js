@@ -14,7 +14,7 @@ router.get('/rsvega/bot/create', (req, res) => {
         axios.get('https://api.sphiinx.me/rsvega/bot/id/1')
             .then(function (response) {
                 // handle success
-                console.log(response);
+                console.log(response.body);
             })
             .catch(function (error) {
                 // handle error
