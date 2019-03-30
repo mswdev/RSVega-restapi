@@ -27,15 +27,15 @@ router.get('/rsvega/bot/create', (req, res) => {
             method: 'POST',
             url: create_bot_url,
             form: {
-                email1: email,
+                email1: req.body.email,
                 onlyOneEmail: '1',
-                password1: password,
+                password1: req.body.password,
                 onlyOnePassword: '1',
                 day: '27',
                 month: '07',
                 year: '1998',
                 'create-submit': 'create',
-                'g-recaptcha-response': captcha_key,
+                'g-recaptcha-response': response.text,
             }
         }, function (error, response, body) {
             if (error) throw error;
