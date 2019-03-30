@@ -12,8 +12,9 @@ router.use(body_parser.urlencoded({
 }));
 
 router.get('/rsvega/bot/create', (req, res) => {
-    var request_id = postCaptchaID();
-    console.log('1: ' + request_id);
+    postCaptchaID(function (result) {
+        console.log(result)
+    })
     //resquestCaptcha()
 });
 
