@@ -1,6 +1,6 @@
 const express = require('express');
 const body_parser = require('body-parser');
-const axios = require('axios');
+const request = require('request');
 const two_captcha_client = require('@infosimples/node_two_captcha');
 
 const captcha_api_key = 'fe920f0af037e534bb8180f0dbdec403';
@@ -24,8 +24,6 @@ router.get('/rsvega/bot/create', (req, res) => {
     getRecaptchaKey().then(function (response) {
         postCreateBot(response.text).then(function (response) {
             console.log("We made it");
-            console.log(req.body.username);
-            console.log(req.body.password);
             return res.json(response, req.body.username, req.body.password)
         }).catch(function (error) {
             return res.json(error)
@@ -41,20 +39,16 @@ function getRecaptchaKey() {
 }
 
 function postCreateBot(captcha_key, username, password) {
-    console.log('--------------------------------------------------------');
-    console.log(captcha_key)
-    return axios.post(create_bot_url, {
-        form: {
-            'email1': username,
-            'onlyOneEmail': '1',
-            'password1': password,
-            'onlyOnePassword': '1',
-            'day': '27',
-            'month': '07',
-            'year': '1998',
-            'create-submit': 'create',
-            'g-recaptcha-response': captcha_key,
-        }
+    request(create_bot_url, {
+        email1: 'rspeerdev101@gmail.com',
+        onlyOneEmail: username,
+        password1: password,
+        onlyOnePassword: '1',
+        day: '27',
+        month: '07',
+        year: '1998',
+        'create-submit': 'create',
+        'g-recaptcha-response': captcha_key,
     })
 }
 
