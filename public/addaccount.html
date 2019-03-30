@@ -6,11 +6,10 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
         const axios = require("express");
-        const axioss = require("axios");
 
         function parseBots() {
-            console.log('We here');
-            axioss.get('https://api.sphiinx.me/rsvega/bot/1/')
+            console.log('We here')
+            axios.get('https://api.sphiinx.me/rsvega/bot/1/')
                 .then(function (response) {
                     console.log(response);
                 })
