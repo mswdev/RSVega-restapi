@@ -36,7 +36,7 @@ function getCaptchaKey(request_id) {
         json: '1',
         id: request_id,
         key: captcha_api_key,
-        action: get,
+        action: 'get',
     }).then(function (response) {
         console.log(response.data.request);
         return response.data.request;
