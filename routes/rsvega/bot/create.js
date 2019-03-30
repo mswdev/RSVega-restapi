@@ -22,26 +22,7 @@ const client = new two_captcha_client(captcha_api_key, {
 
 router.get('/rsvega/bot/create', (req, res) => {
     getRecaptchaKey().then(function (response) {
-        request( {
-            method: 'POST',
-            url: 'https://secure.runescape.com/m=account-creation/create_account',
-            headers:
-                {
-                    'Postman-Token': 'a7a639f8-603e-4b4f-970b-12f8c011c28f',
-                    'cache-control': 'no-cache'
-                },
-            form: {
-                email1: req.body.email,
-                onlyOneEmail: '1',
-                password1:  req.body.password,
-                onlyOnePassword: '1',
-                day: '27',
-                month: '07',
-                year: '1998',
-                'create-submit': 'create',
-                'g-recaptcha-response': captcha_key,
-            }
-        });
+        postCreateBot(response.text, req.body.email, req.body.password)
         return res.json('SUCCESS');
     });
 });
@@ -77,6 +58,26 @@ var options = {
 };
 
 function postCreateBot(captcha_key, email, password) {
+    return request( {
+        method: 'POST',
+        url: 'https://secure.runescape.com/m=account-creation/create_account',
+        headers:
+            {
+                'Postman-Token': 'a7a639f8-603e-4b4f-970b-12f8c011c28f',
+                'cache-control': 'no-cache'
+            },
+        form: {
+            email1: email,
+            onlyOneEmail: '1',
+            password1: password,
+            onlyOnePassword: '1',
+            day: '27',
+            month: '07',
+            year: '1998',
+            'create-submit': 'create',
+            'g-recaptcha-response': captcha_key,
+        }
+    })
 }
 
 module.exports = router;
