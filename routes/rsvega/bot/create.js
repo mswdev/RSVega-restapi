@@ -12,12 +12,11 @@ router.use(body_parser.urlencoded({
 }));
 
 router.get('/rsvega/bot/create', (req, res) => {
-    axios.default.post('http://2captcha.com/in.php', {
+    axios.default.get('http://2captcha.com/res.php', {
         json: '1',
+        id: request_id,
         key: captcha_api_key,
-        method: 'userrecaptcha',
-        googlekey: '6Lcsv3oUAAAAAGFhlKrkRb029OHio098bbeyi_Hv',
-        pageurl: 'https://secure.runescape.com/m=account-creation/create_account?theme=oldschool',
+        action: get,
     }).then(function (response) {
         console.log(response.data.request);
         return response.data.request;
