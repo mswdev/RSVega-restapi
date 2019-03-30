@@ -18,6 +18,7 @@ router.get('/rsvega/bot/create', (req, res) => {
             setTimeout(function () {
                 getCaptchaKey(response.data.request)
                     .then(function (response) {
+                        console.log(response.data.request);
                         postCreateBot(response.data.request)
                             .then(function (response) {
                                 console.log("We made it here baby");
