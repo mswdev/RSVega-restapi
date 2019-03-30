@@ -51,7 +51,7 @@ function getCaptchaKey(request_id) {
 }
 
 function getCaptchaKeyTimeout() {
-    return setTimeout(getCaptchaKey(postCaptchaKey()), 35000);
+    setTimeout(getCaptchaKey(postCaptchaKey()), 35000);
 }
 
 module.exports = router;
