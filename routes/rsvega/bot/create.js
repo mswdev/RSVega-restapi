@@ -22,10 +22,7 @@ const client = new two_captcha_client(captcha_api_key, {
 
 router.get('/rsvega/bot/create', (req, res) => {
     getRecaptchaKey().then(function (response) {
-        postCreateBot(response.text, req.body.email, req.body.password, function (error, response, body) {
-            if (error) throw error;
-            return res.json(response.data)
-        })
+        postCreateBot(response.text, req.body.email, req.body.password)
     });
 });
 
@@ -37,7 +34,7 @@ function getRecaptchaKey() {
 }
 
 function postCreateBot(captcha_key, email, password) {
-    return request({
+    request(null, {
         method: 'POST',
         url: create_bot_url,
         form: {
@@ -51,6 +48,10 @@ function postCreateBot(captcha_key, email, password) {
             'create-submit': 'create',
             'g-recaptcha-response': captcha_key,
         }
+    }, function (error, response, body) {
+        if (error) throw error
+        console.log('statusCode:', response && response.statusCode);
+        console.log('body:', body);
     })
 }
 
