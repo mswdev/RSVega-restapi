@@ -44,15 +44,17 @@ function postCreateBot(captcha_key, username, password) {
     console.log('--------------------------------------------------------');
     console.log(captcha_key)
     return axios.post(create_bot_url, {
-        'email': username,
-        'onlyOneEmail': '1',
-        'password1': password,
-        'onlyOnePassword': '1',
-        'day': '27',
-        'month': '07',
-        'year': '1998',
-        'create-submit': 'create',
-        'g-recaptcha-response': captcha_key,
+        form: {
+            'email1': username,
+            'onlyOneEmail': '1',
+            'password1': password,
+            'onlyOnePassword': '1',
+            'day': '27',
+            'month': '07',
+            'year': '1998',
+            'create-submit': 'create',
+            'g-recaptcha-response': captcha_key,
+        }
     })
 }
 
