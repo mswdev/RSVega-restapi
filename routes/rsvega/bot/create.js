@@ -1,7 +1,6 @@
 const express = require('express');
 const body_parser = require('body-parser');
 const axios = require('axios');
-var solver = require('2captcha')
 
 const router = express.Router();
 
@@ -14,7 +13,6 @@ router.use(body_parser.urlencoded({
 }));
 
 router.get('/rsvega/bot/create', (req, res) => {
-    console.log(solver.decodeRecaptchaV2('6Lcsv3oUAAAAAGFhlKrkRb029OHio098bbeyi_Hv', create_bot_url))
     /*postCaptchaID()
         .then(function (response) {
             setTimeout(function () {
