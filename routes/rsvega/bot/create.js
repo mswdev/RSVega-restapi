@@ -54,7 +54,7 @@ function getRecaptchaKey() {
 }
 
 function reportBadCaptcha(body, captcha_id) {
-    if (!body.includes('This email address has already been used to play.') && !body.includes('You can now begin your adventure with your new account.')) {
+    if (body.length > 0 && !body.includes('This email address has already been used to play.') && !body.includes('You can now begin your adventure with your new account.')) {
         console.log("[WARNING]: Bad captcha possibly detected.")
         /*client.report(captcha_id).catch(function (error) {
             return error
