@@ -35,53 +35,51 @@ router.get('/rsvega/bot/create', (req, res) => {
         if (error) throw error;
         console.log(body)
     })
-});
+    /*const email = setEmail(req.body.email);
+    const password = setPassword(req.body.password);
+    const proxy_url = setProxy(req.body.socks_ip, req.body.socks_port, req.body.socks_username, req.body.proxy_password);
 
-/*const email = setEmail(req.body.email);
-const password = setPassword(req.body.password);
-const proxy_url = setProxy(req.body.socks_ip, req.body.socks_port, req.body.socks_username, req.body.proxy_password);
-
-getRecaptchaKey(proxy_url).then(function (response) {
-    console.log('-------------------------------------------------------------------------');
-    console.log(response.text);
-    console.log('-------------------------------------------------------------------------');
-    request({
-        method: 'POST',
-        url: create_bot_url,
-        agentClass: getSocksAgent(),
-        agentOptions: {
-            socksHost: req.body.socks_ip,
-            socksPort: req.body.socks_port,
-            socksUsername: req.body.socks_username,
-            socksPassword: req.body.socks_password,
-        },
-        form: {
-            email1: email,
-            onlyOneEmail: '1',
-            password1: password,
-            onlyOnePassword: '1',
-            day: getRandomDay(),
-            month: getRandomMonth(),
-            year: getRandomYear(),
-            'create-submit': 'create',
-            'g-recaptcha-response': response.text,
-        }
-    }, function (error, response, body) {
-        if (error) throw error;
-        reportBadCaptcha(body, response.text);
+    getRecaptchaKey(proxy_url).then(function (response) {
         console.log('-------------------------------------------------------------------------');
         console.log(response.text);
         console.log('-------------------------------------------------------------------------');
-        return res.json(
-            {
-                success: body.length === 0,
-                email: email,
-                password: password,
-                proxy: proxy_url,
-            })
-    })
-})*/
-
+        request({
+            method: 'POST',
+            url: create_bot_url,
+            agentClass: getSocksAgent(),
+            agentOptions: {
+                socksHost: req.body.socks_ip,
+                socksPort: req.body.socks_port,
+                socksUsername: req.body.socks_username,
+                socksPassword: req.body.socks_password,
+            },
+            form: {
+                email1: email,
+                onlyOneEmail: '1',
+                password1: password,
+                onlyOnePassword: '1',
+                day: getRandomDay(),
+                month: getRandomMonth(),
+                year: getRandomYear(),
+                'create-submit': 'create',
+                'g-recaptcha-response': response.text,
+            }
+        }, function (error, response, body) {
+            if (error) throw error;
+            reportBadCaptcha(body, response.text);
+            console.log('-------------------------------------------------------------------------');
+            console.log(response.text);
+            console.log('-------------------------------------------------------------------------');
+            return res.json(
+                {
+                    success: body.length === 0,
+                    email: email,
+                    password: password,
+                    proxy: proxy_url,
+                })
+        })
+    })*/
+});
 
 function getRecaptchaKey(proxy_url) {
     return client.decodeRecaptchaV2({
@@ -107,6 +105,7 @@ function getSocksAgent(socks_ip, socks_port) {
     if (typeof socks_ip === 'undefined' || typeof socks_port === 'undefined')
         return null;
 
+    console.log('Here')
     return socks_agent;
 }
 
