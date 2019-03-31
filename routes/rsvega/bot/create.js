@@ -102,10 +102,13 @@ function reportBadCaptcha(body, captcha_id) {
 }
 
 function getSocksAgent(socks_ip, socks_port) {
-    if (typeof socks_ip === 'undefined' || typeof socks_port === 'undefined')
+    console.log('Here 1');
+    if (typeof socks_ip === 'undefined' || typeof socks_port === 'undefined') {
+        console.log('Null');
         return null;
+    }
 
-    console.log('Here')
+    console.log('Here');
     return socks_agent;
 }
 
