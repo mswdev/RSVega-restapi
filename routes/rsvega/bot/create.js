@@ -30,7 +30,6 @@ router.get('/rsvega/bot/create', (req, res) => {
         request.defaults( {
             method: 'POST',
             url: create_bot_url,
-            proxy: gen_proxy,
             form: {
                 email1: email,
                 onlyOneEmail: '1',
@@ -50,7 +49,6 @@ router.get('/rsvega/bot/create', (req, res) => {
                     success: body.length === 0,
                     email: email,
                     password: password,
-                    proxy: gen_proxy,
                 })
         })
     })
