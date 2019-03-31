@@ -26,7 +26,7 @@ router.get('/rsvega/bot/create', (req, res) => {
     request({
         method: 'GET',
         url: 'https://api.ipify.org/',
-        agentClass: getSocksAgent(req.body.proxy_ip, req.body.proxy_port),
+        agentClass: getSocksAgent(req.body.socks_ip, req.body.socks_port),
         agentOptions: {
             socksHost: req.body.socks_ip,
             socksPort: req.body.socks_port,
@@ -46,7 +46,7 @@ router.get('/rsvega/bot/create', (req, res) => {
         request({
             method: 'POST',
             url: create_bot_url,
-            agentClass: getSocksAgent(req.body.proxy_ip, req.body.proxy_port),
+            agentClass: getSocksAgent(req.body.socks_ip, req.body.socks_port),
             agentOptions: {
                 socksHost: req.body.socks_ip,
                 socksPort: req.body.socks_port,
