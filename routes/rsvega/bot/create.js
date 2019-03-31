@@ -34,9 +34,9 @@ router.get('/rsvega/bot/create', (req, res) => {
                 onlyOneEmail: '1',
                 password1: password,
                 onlyOnePassword: '1',
-                day: '27',
-                month: '07',
-                year: '1998',
+                day: getRandomDay(),
+                month: getRandomMonth(),
+                year: getRandomYear(),
                 'create-submit': 'create',
                 'g-recaptcha-response': response.text,
             }
