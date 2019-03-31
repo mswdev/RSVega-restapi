@@ -26,9 +26,9 @@ router.get('/rsvega/bot/create', (req, res) => {
             method: 'POST',
             url: create_bot_url,
             form: {
-                email1: response.body.email,
+                email1: req.body.email,
                 onlyOneEmail: '1',
-                password1: response.body.password,
+                password1: req.body.password,
                 onlyOnePassword: '1',
                 day: '27',
                 month: '07',
