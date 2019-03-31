@@ -26,16 +26,16 @@ router.get('/rsvega/bot/create', (req, res) => {
     request({
         method: 'GET',
         url: 'https://api.ipify.org/',
-        agentClass: socks_agent,
+        agentClass: getSocksAgent(),
         agentOptions: {
             socksHost: req.body.socks_ip,
             socksPort: req.body.socks_port,
-        }(function (error, response, body) {
-            console.log(response);
-            console.log(body)
-        })
-    });
-})
+        },
+    }, function (error, response, body) {
+        if (error) throw error;
+        console.log(body)
+    })
+});
 
 /*const email = setEmail(req.body.email);
 const password = setPassword(req.body.password);
