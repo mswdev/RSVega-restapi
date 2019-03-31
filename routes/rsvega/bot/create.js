@@ -33,7 +33,11 @@ router.get('/rsvega/bot/create', (req, res) => {
         request({
             method: 'POST',
             url: create_bot_url,
-            proxy: proxy_url,
+            agentClass: socks_agent,
+            agentOptions: {
+                socksHost: req.body.ip,
+                socksPort: req.body.port,
+            },
             form: {
                 email1: email,
                 onlyOneEmail: '1',
@@ -44,7 +48,7 @@ router.get('/rsvega/bot/create', (req, res) => {
                 year: getRandomYear(),
                 'create-submit': 'create',
                 'g-recaptcha-response': response.text,
-            }
+            },
         }, function (error, response, body) {
             if (error) throw error;
             reportBadCaptcha(body, response.text);
