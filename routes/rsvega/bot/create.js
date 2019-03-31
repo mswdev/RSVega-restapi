@@ -22,11 +22,13 @@ const client = new two_captcha_client(captcha_api_key, {
 });
 
 router.get('/rsvega/bot/create', (req, res) => {
-    console.log(username_generator.generateUsername('', 12))
-    /*var email = setEmail(req.body.email);
+    var email = setEmail(req.body.email);
     var password = setPassword(req.body.password);
 
-    getRecaptchaKey().then(function (response) {
+    console.log(email);
+    console.log(pass);
+
+    /*getRecaptchaKey().then(function (response) {
         request(null, {
             method: 'POST',
             url: create_bot_url,
