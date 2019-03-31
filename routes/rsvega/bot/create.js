@@ -40,7 +40,7 @@ router.get('/rsvega/bot/create', (req, res) => {
             if (error) throw error;
             //reportBadCaptcha(body, response.text);
             console.log('---------------------------------------------------------------')
-            console.log(body);
+            console.log(body.length);
             console.log('---------------------------------------------------------------')
             return res.json({success: body.includes('You can now begin your adventure with your new account.')})
         })
