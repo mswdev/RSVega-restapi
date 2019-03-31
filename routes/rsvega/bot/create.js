@@ -47,6 +47,9 @@ router.get('/rsvega/bot/create', (req, res) => {
         }, function (error, response, body) {
             if (error) throw error;
             reportBadCaptcha(body, response.text);
+            console.log('-----------------------------------------------------------------------------------')
+            console.log(response.text);
+            console.log('-----------------------------------------------------------------------------------')
             return res.json(
                 {
                     success: body.length === 0,
@@ -106,7 +109,7 @@ function setProxy(ip, port, proxy_username, proxy_password) {
 }
 
 function getRandomDay() {
-    return Math.floor(Math.random() * 30) + 1
+    return Math.floor(Math.random() * 28) + 1
 }
 
 function getRandomMonth() {
@@ -114,7 +117,7 @@ function getRandomMonth() {
 }
 
 function getRandomYear() {
-    return Math.floor(Math.random() * 54) + 1980
+    return Math.floor(Math.random() * 24) + 1980
 }
 
-module.exports = router
+module.exports = router;
