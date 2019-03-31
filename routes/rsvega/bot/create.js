@@ -26,12 +26,14 @@ var proxiedRequest = request.defaults({proxy: "http://proxyuser:123@proxy.foo.co
 router.get('/rsvega/bot/create', (req, res) => {
     var email = setEmail(req.body.email);
     var password = setPassword(req.body.password);
+    var proxy = setProxy(req.body.ip, req.body.port, req.body.proxy_username, req.body.proxy_password)
 
-    getRecaptchaKey().then(function (response) {
+    console.log(proxy)
+    /*getRecaptchaKey().then(function (response) {
         request.defaults( {
             method: 'POST',
             url: create_bot_url,
-            proxy: '75.127.11.113:1080',
+            proxy: proxy,
             form: {
                 email1: email,
                 onlyOneEmail: '1',
@@ -53,7 +55,7 @@ router.get('/rsvega/bot/create', (req, res) => {
                     password: password,
                 })
         })
-    })
+    })*/
 });
 
 function getRecaptchaKey() {
@@ -88,6 +90,18 @@ function setPassword(password) {
     }
 
     return password
+}
+
+function setProxy(ip, port, proxy_username, proxy_password) {
+    if (typeof ip === 'undefined' || typeof port === 'undefined') {
+        return ''
+    }
+
+    if (typeof proxy_username === 'undefined' || proxy_password === 'undefined') {
+        return ip + ':' + port
+    }
+
+    return proxy_username + ':' + proxy_password + '@' + ip + ':' + port
 }
 
 function getRandomDay() {
