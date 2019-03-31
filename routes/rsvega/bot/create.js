@@ -99,10 +99,10 @@ function setProxy(ip, port, proxy_username, proxy_password) {
     }
 
     if (typeof proxy_username === 'undefined' || typeof proxy_password === 'undefined') {
-        return ip + ':' + port
+        return 'http://' + ip + ':' + port
     }
 
-    return proxy_username + ':' + proxy_password + '@' + ip + ':' + port
+    return 'http://' + proxy_username + ':' + proxy_password + '@' + ip + ':' + port
 }
 
 function getRandomDay() {
