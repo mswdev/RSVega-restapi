@@ -21,18 +21,16 @@ const client = new two_captcha_client(captcha_api_key, {
     throwErrors: false
 });
 
-var proxiedRequest = request.defaults({proxy: "http://proxyuser:123@proxy.foo.com:8080"});
-
 router.get('/rsvega/bot/create', (req, res) => {
     var email = setEmail(req.body.email);
     var password = setPassword(req.body.password);
-    var proxy = setProxy(req.body.ip, req.body.port, req.body.proxy_username, req.body.proxy_password)
+    var gen_proxy = setProxy(req.body.ip, req.body.port, req.body.proxy_username, req.body.proxy_password)
 
     getRecaptchaKey().then(function (response) {
         request.defaults( {
             method: 'POST',
             url: create_bot_url,
-            proxy: proxy,
+            proxy: gen_proxy,
             form: {
                 email1: email,
                 onlyOneEmail: '1',
@@ -52,7 +50,7 @@ router.get('/rsvega/bot/create', (req, res) => {
                     success: body.length === 0,
                     email: email,
                     password: password,
-                    proxy: proxy,
+                    proxy: gen_proxy,
                 })
         })
     })
