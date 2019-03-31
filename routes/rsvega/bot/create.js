@@ -25,7 +25,7 @@ const client = new two_captcha_client(captcha_api_key, {
 router.get('/rsvega/bot/create', (req, res) => {
     var email = setEmail(req.body.email);
     var password = setPassword(req.body.password);
-    var proxy_url = setProxy(req.body.ip, req.body.port, req.body.proxy_username, req.body.proxy_password)
+    var proxy_url = setProxy(req.body.socks_ip, req.body.socks_port, req.body.socks_username, req.body.proxy_password);
     console.log(proxy_url);
 
     getRecaptchaKey(proxy_url).then(function (response) {
@@ -35,8 +35,10 @@ router.get('/rsvega/bot/create', (req, res) => {
             url: create_bot_url,
             agentClass: socks_agent,
             agentOptions: {
-                socksHost: req.body.ip,
-                socksPort: req.body.port,
+                socksHost: req.body.socks_ip,
+                socksPort: req.body.socks_port,
+                socksUsername: req.body.socks_username,
+                socksPassword: req.body.socks_password,
             },
             form: {
                 email1: email,
@@ -107,10 +109,10 @@ function setProxy(ip, port, proxy_username, proxy_password) {
     }
 
     if (typeof proxy_username === 'undefined' || typeof proxy_password === 'undefined') {
-        return 'http://' + ip + ':' + port
+        return ip + ':' + port
     }
 
-    return 'http://' + proxy_username + ':' + proxy_password + '@' + ip + ':' + port
+    return proxy_username + ':' + proxy_password + '@' + ip + ':' + port
 }
 
 function getRandomDay() {
