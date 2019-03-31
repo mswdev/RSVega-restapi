@@ -1,7 +1,7 @@
 const express = require('express');
 const body_parser = require('body-parser');
 const request = require('request');
-const socks_agent = require('socks5-http-client/lib/Agent');
+const socks_agent = require('socks5-https-client/lib/Agent');
 const two_captcha_client = require('@infosimples/node_two_captcha');
 const faker = require('faker');
 
