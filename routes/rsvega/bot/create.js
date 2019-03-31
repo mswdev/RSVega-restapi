@@ -38,7 +38,7 @@ router.get('/rsvega/bot/create', (req, res) => {
             }
         }, function (error, response, body) {
             if (error) throw error;
-            reportBadCaptcha(body, response.text);
+            //reportBadCaptcha(body, response.text);
             console.log('---------------------------------------------------------------')
             console.log(body);
             console.log('---------------------------------------------------------------')
