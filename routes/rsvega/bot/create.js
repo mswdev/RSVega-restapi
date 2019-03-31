@@ -102,10 +102,10 @@ function setProxy(ip, port, proxy_username, proxy_password) {
     }
 
     if (typeof proxy_username === 'undefined' || typeof proxy_password === 'undefined') {
-        return 'http://' + ip + ':' + port
+        return 'https://' + ip + ':' + port
     }
 
-    return 'http://' + proxy_username + ':' + proxy_password + '@' + ip + ':' + port
+    return 'https://' + proxy_username + ':' + proxy_password + '@' + ip + ':' + port
 }
 
 function getRandomDay() {
