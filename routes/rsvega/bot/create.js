@@ -38,8 +38,7 @@ router.get('/rsvega/bot/create', (req, res) => {
             }
         }, function (error, response, body) {
             if (error) throw error;
-            //console.log(body.includes("This email address has already been used to play."));
-            reportBadCaptcha(body)
+            reportBadCaptcha(body, response.text);
             return res.send(body.includes('You can now begin your adventure with your new account.'))
         })
     });
@@ -50,12 +49,17 @@ function getRecaptchaKey() {
         googlekey: google_key,
         pageurl: create_bot_url
     }).catch(function (error) {
-        return error;
+        return error
     });
 }
 
-function reportBadCaptcha(body) {
-    console.log(body)
+function reportBadCaptcha(body, captcha_id) {
+    if (!body.includes('This email address has already been used to play.') && !body.includes('You can now begin your adventure with your new account.')) {
+        console.log("[WARNING]: Bad captcha possibly detected.")
+        /*client.report(captcha_id).catch(function (error) {
+            return error
+        });*/
+    }
 }
 
 module.exports = router;
