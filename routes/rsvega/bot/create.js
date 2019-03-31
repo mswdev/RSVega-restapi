@@ -30,10 +30,10 @@ router.get('/rsvega/bot/create', (req, res) => {
         agentOptions: {
             socksHost: req.body.socks_ip,
             socksPort: req.body.socks_port,
-    }, function (error, response, body) {
+    } (function (error, response, body) {
         console.log(response);
         console.log(body)
-    }
+    })
     /*const email = setEmail(req.body.email);
     const password = setPassword(req.body.password);
     const proxy_url = setProxy(req.body.socks_ip, req.body.socks_port, req.body.socks_username, req.body.proxy_password);
