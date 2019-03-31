@@ -25,10 +25,8 @@ router.get('/rsvega/bot/create', (req, res) => {
     var email = setEmail(req.body.email);
     var password = setPassword(req.body.password);
 
-    console.log(email)
-    console.log(password)
-    /*getRecaptchaKey().then(function (response) {
-        /!*request(null, {
+    getRecaptchaKey().then(function (response) {
+        request(null, {
             method: 'POST',
             url: create_bot_url,
             form: {
@@ -36,9 +34,9 @@ router.get('/rsvega/bot/create', (req, res) => {
                 onlyOneEmail: '1',
                 password1: password,
                 onlyOnePassword: '1',
-                day: getRandomDay(),
-                month: getRandomMonth(),
-                year: getRandomYear(),
+                day: '27',
+                month: '07',
+                year: '1998',
                 'create-submit': 'create',
                 'g-recaptcha-response': response.text,
             }
@@ -52,7 +50,7 @@ router.get('/rsvega/bot/create', (req, res) => {
                     password: password,
                 })
         })
-    })*!/*/
+    })
 });
 
 function getRecaptchaKey() {
