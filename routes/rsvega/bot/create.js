@@ -22,20 +22,18 @@ const client = new two_captcha_client(captcha_api_key, {
 });
 
 router.get('/rsvega/bot/create', (req, res) => {
-    console.log(req.body.email === null);
-    console.log(typeof req.body.email === 'undefined');
-    console.log(req.body.email === 'undefined');
-    //console.log(req.body.email.length <= 0)
-   /* getRecaptchaKey().then(function (response) {
+    console.log(username_generator.generateUsername('', 12))
+    /*var email = setEmail(req.body.email);
+    var password = setPassword(req.body.password);
 
-
-        /!*request(null, {
+    getRecaptchaKey().then(function (response) {
+        request(null, {
             method: 'POST',
             url: create_bot_url,
             form: {
-                email1: req.body.email,
+                email1: email,
                 onlyOneEmail: '1',
-                password1: req.body.password,
+                password1: password,
                 onlyOnePassword: '1',
                 day: getRandomDay(),
                 month: getRandomMonth(),
@@ -47,8 +45,8 @@ router.get('/rsvega/bot/create', (req, res) => {
             if (error) throw error;
             reportBadCaptcha(body, response.text);
             return res.json({success: body.length === 0})
-        })*!/
-    });*/
+        })
+    })*/
 });
 
 function getRecaptchaKey() {
@@ -57,7 +55,7 @@ function getRecaptchaKey() {
         pageurl: create_bot_url
     }).catch(function (error) {
         return error
-    });
+    })
 }
 
 function reportBadCaptcha(body, captcha_id) {
@@ -65,20 +63,36 @@ function reportBadCaptcha(body, captcha_id) {
         console.log("[WARNING]: Bad captcha possibly detected.")
         /*client.report(captcha_id).catch(function (error) {
             return error
-        });*/
+        })*/
     }
 }
 
+function setEmail(email) {
+    if (typeof email === 'undefined') {
+        return username_generator.generateUsername('', 12) + '@gmail.com'
+    }
+
+    return email
+}
+
+function setPassword(password) {
+    if (typeof password === 'undefined') {
+        return username_generator.generateUsername('', 12)
+    }
+
+    return password
+}
+
 function getRandomDay() {
-    return Math.floor(Math.random() * 30) + 1;
+    return Math.floor(Math.random() * 30) + 1
 }
 
 function getRandomMonth() {
-    return Math.floor(Math.random() * 12) + 1;
+    return Math.floor(Math.random() * 12) + 1
 }
 
 function getRandomYear() {
-    return Math.floor(Math.random() * 54) + 1980;
+    return Math.floor(Math.random() * 54) + 1980
 }
 
-module.exports = router;
+module.exports = router
