@@ -23,19 +23,7 @@ const client = new two_captcha_client(captcha_api_key, {
 });
 
 router.get('/rsvega/bot/create', (req, res) => {
-    request({
-        method: 'GET',
-        url: 'https://api.ipify.org/',
-        agentClass: getSocksAgent(req.body.socks_ip, req.body.socks_port),
-        agentOptions: {
-            socksHost: req.body.socks_ip,
-            socksPort: req.body.socks_port,
-        },
-    }, function (error, response, body) {
-        if (error) throw error;
-        console.log(body)
-    })
-    /*const email = setEmail(req.body.email);
+    const email = setEmail(req.body.email);
     const password = setPassword(req.body.password);
     const proxy_url = setProxy(req.body.socks_ip, req.body.socks_port, req.body.socks_username, req.body.proxy_password);
 
@@ -78,7 +66,7 @@ router.get('/rsvega/bot/create', (req, res) => {
                     proxy: proxy_url,
                 })
         })
-    })*/
+    })
 });
 
 function getRecaptchaKey(proxy_url) {
@@ -102,13 +90,9 @@ function reportBadCaptcha(body, captcha_id) {
 }
 
 function getSocksAgent(socks_ip, socks_port) {
-    console.log('Here 1');
-    if (typeof socks_ip === 'undefined' || typeof socks_port === 'undefined') {
-        console.log('Null');
+    if (typeof socks_ip === 'undefined' || typeof socks_port === 'undefined')
         return null;
-    }
 
-    console.log('Here');
     return socks_agent;
 }
 
