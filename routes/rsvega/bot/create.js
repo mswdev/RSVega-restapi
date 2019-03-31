@@ -30,8 +30,28 @@ router.get('/rsvega/bot/create', (req, res) => {
 
     getRecaptchaKey(proxy_url).then(function (response) {
         console.log(response.text);
-        var request_options = getRequestOptions(req.body.socks_ip, req.body.socks_port, req.body.socks_username, req.body.socks_password, email, password, response.text);
-        request(request_options, function (error, response, body) {
+        request({
+            method: 'POST',
+            url: create_bot_url,
+            agentClass: getSocksAgent(),
+            agentOptions: {
+                socksHost: socks_ip,
+                socksPort: socks_port,
+                socksUsername: socks_username,
+                socksPassword: socks_password,
+            },
+            form: {
+                email1: email,
+                onlyOneEmail: '1',
+                password1: password,
+                onlyOnePassword: '1',
+                day: getRandomDay(),
+                month: getRandomMonth(),
+                year: getRandomYear(),
+                'create-submit': 'create',
+                'g-recaptcha-response': response.text,
+            }
+        }, function (error, response, body) {
             if (error) throw error;
             reportBadCaptcha(body, response.text);
             console.log('-------------------------------------------------------------------------');
@@ -67,38 +87,11 @@ function reportBadCaptcha(body, captcha_id) {
     }
 }
 
-function getRequestOptions(socks_ip, socks_port, socks_username, socks_password, email, password, captcha_key) {
-    var socks_options = {
-        agentClass: socks_agent,
-        agentOptions: {
-            socksHost: socks_ip,
-            socksPort: socks_port,
-            socksUsername: socks_username,
-            socksPassword: socks_password,
-        },
-    };
-    var request_options = {
-        method: 'POST',
-        url: create_bot_url,
-        form: {
-            email1: email,
-            onlyOneEmail: '1',
-            password1: password,
-            onlyOnePassword: '1',
-            day: getRandomDay(),
-            month: getRandomMonth(),
-            year: getRandomYear(),
-            'create-submit': 'create',
-            'g-recaptcha-response': captcha_key,
-        }
-    };
-
-    console.log(request_options);
+function getSocksAgent(socks_ip, socks_port) {
     if (typeof socks_ip === 'undefined' || typeof socks_port === 'undefined')
-        return request_options;
+        return null;
 
-    console.log(socks_options + request_options);
-    return socks_options + request_options;
+    return socks_agent;
 }
 
 function setEmail(email) {
