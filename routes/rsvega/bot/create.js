@@ -21,14 +21,17 @@ const client = new two_captcha_client(captcha_api_key, {
     throwErrors: false
 });
 
+var proxiedRequest = request.defaults({proxy: "http://proxyuser:123@proxy.foo.com:8080"});
+
 router.get('/rsvega/bot/create', (req, res) => {
     var email = setEmail(req.body.email);
     var password = setPassword(req.body.password);
 
     getRecaptchaKey().then(function (response) {
-        request(null, {
+        request.defaults( {
             method: 'POST',
             url: create_bot_url,
+            proxy: '75.127.11.113:1080',
             form: {
                 email1: email,
                 onlyOneEmail: '1',
