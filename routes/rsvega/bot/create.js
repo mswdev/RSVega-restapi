@@ -39,6 +39,7 @@ router.get('/rsvega/bot/create', (req, res) => {
         }, function (error, response, body) {
             if (error) throw error;
             //console.log(body.includes("This email address has already been used to play."));
+            reportBadCaptcha(body)
             return res.send(body.includes('You can now begin your adventure with your new account.'))
         })
     });
@@ -53,8 +54,8 @@ function getRecaptchaKey() {
     });
 }
 
-function postCreateBot(captcha_key, email, password) {
-
+function reportBadCaptcha(body) {
+    console.log(body)
 }
 
 module.exports = router;
