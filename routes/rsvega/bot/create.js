@@ -97,7 +97,7 @@ function setProxy(ip, port, proxy_username, proxy_password) {
         return ''
     }
 
-    if (typeof proxy_username === 'undefined' && proxy_password === 'undefined') {
+    if (typeof proxy_username === 'undefined' || typeof proxy_password === 'undefined') {
         return ip + ':' + port
     }
 
