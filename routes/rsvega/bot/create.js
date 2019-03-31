@@ -22,7 +22,11 @@ const client = new two_captcha_client(captcha_api_key, {
 });
 
 router.get('/rsvega/bot/create', (req, res) => {
-    var email = setEmail(req.body.email);
+    var proxyUrl = "107.175.151.86:1080';
+
+    var proxiedRequest = request.defaults({'proxy': proxyUrl});
+    return res.send(proxiedRequest.get('https://google.com').body)
+    /*var email = setEmail(req.body.email);
     var password = setPassword(req.body.password);
     var proxy_url = setProxy(req.body.ip, req.body.port, req.body.proxy_username, req.body.proxy_password)
     console.log(proxy_url)
@@ -55,7 +59,7 @@ router.get('/rsvega/bot/create', (req, res) => {
                     proxy: proxy_url,
                 })
         })
-    })
+    })*/
 });
 
 function getRecaptchaKey(proxy_url) {
