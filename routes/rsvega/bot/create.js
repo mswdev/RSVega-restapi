@@ -52,7 +52,7 @@ function postCreateBot(captcha_key, email, password) {
         }
     }, function (error, response, body) {
         if (error) throw error;
-        console.log(body);
+        console.log(body.includes("Warning!"));
         return body
     })
 }
