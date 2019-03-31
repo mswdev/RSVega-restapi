@@ -2,7 +2,7 @@ const express = require('express');
 const body_parser = require('body-parser');
 const request = require('request');
 const two_captcha_client = require('@infosimples/node_two_captcha');
-const username_generator = require('username-generator');
+const faker = require('faker');
 
 const captcha_api_key = 'fe920f0af037e534bb8180f0dbdec403';
 const google_key = '6Lcsv3oUAAAAAGFhlKrkRb029OHio098bbeyi_Hv';
@@ -73,7 +73,7 @@ function reportBadCaptcha(body, captcha_id) {
 
 function setEmail(email) {
     if (typeof email === 'undefined') {
-        return username_generator.generateUsername('', 12) + '@gmail.com'
+        return faker.internet.email()
     }
 
     return email
@@ -81,7 +81,7 @@ function setEmail(email) {
 
 function setPassword(password) {
     if (typeof password === 'undefined') {
-        return username_generator.generateUsername()
+        return faker.internet.password()
     }
 
     return password
