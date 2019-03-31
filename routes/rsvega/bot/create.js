@@ -22,7 +22,7 @@ const client = new two_captcha_client(captcha_api_key, {
 });
 
 router.get('/rsvega/bot/create', (req, res) => {
-    console.log(req.body.username.length <= 0)
+    console.log(req.body.email)
    /* getRecaptchaKey().then(function (response) {
 
 
