@@ -1,10 +1,10 @@
 const express = require('express');
 const body_parser = require('body-parser');
 const request = require('request');
+const socks_agent = require('socks5-https-client/lib/Agent');
 const two_captcha_client = require('@infosimples/node_two_captcha');
 const faker = require('faker');
 
-const captcha_api_key = 'fe920f0af037e534bb8180f0dbdec403';
 const google_key = '6Lcsv3oUAAAAAGFhlKrkRb029OHio098bbeyi_Hv';
 const create_bot_url = 'https://secure.runescape.com/m=account-creation/create_account';
 
@@ -15,20 +15,25 @@ router.use(body_parser.urlencoded({
     extended: true
 }));
 
-const client = new two_captcha_client(captcha_api_key, {
-    timeout: 65000,
-    polling: 4000,
-    throwErrors: false
-});
-
 router.get('/rsvega/bot/create', (req, res) => {
-    var email = setEmail(req.body.email);
-    var password = setPassword(req.body.password);
+    const email = setEmail(req.body.email);
+    const password = setPassword(req.body.password);
+    const proxy_url = setProxy(req.body.socks_ip, req.body.socks_port, req.body.socks_username, req.body.proxy_password);
 
-    getRecaptchaKey().then(function (response) {
-        request(null, {
+    getRecaptchaKey(req.body.captcha_api_key, proxy_url).then(function (response) {
+        console.log('-------------------------------------------------------------------------');
+        console.log(response.text);
+        console.log('-------------------------------------------------------------------------');
+        request({
             method: 'POST',
             url: create_bot_url,
+            agentClass: getSocksAgent(req.body.socks_ip, req.body.socks_port),
+            agentOptions: {
+                socksHost: req.body.socks_ip,
+                socksPort: req.body.socks_port,
+                socksUsername: req.body.socks_username,
+                socksPassword: req.body.socks_password,
+            },
             form: {
                 email1: email,
                 onlyOneEmail: '1',
@@ -43,20 +48,34 @@ router.get('/rsvega/bot/create', (req, res) => {
         }, function (error, response, body) {
             if (error) throw error;
             reportBadCaptcha(body, response.text);
+            console.log('-------------------------------------------------------------------------');
+            console.log(response.text);
+            console.log('-------------------------------------------------------------------------');
             return res.json(
                 {
                     success: body.length === 0,
                     email: email,
                     password: password,
+                    proxy: proxy_url,
                 })
         })
     })
 });
 
-function getRecaptchaKey() {
-    return client.decodeRecaptchaV2({
+function getClient(captcha_api_key) {
+    return new two_captcha_client(captcha_api_key, {
+        timeout: 65000,
+        polling: 4000,
+        throwErrors: false
+    });
+}
+
+function getRecaptchaKey(captcha_api_key, proxy_url) {
+    return getClient(captcha_api_key).decodeRecaptchaV2({
         googlekey: google_key,
-        pageurl: create_bot_url
+        pageurl: create_bot_url,
+        proxy: proxy_url,
+        proxytype: 'SOCKS5',
     }).catch(function (error) {
         return error
     })
@@ -71,6 +90,13 @@ function reportBadCaptcha(body, captcha_id) {
     }
 }
 
+function getSocksAgent(socks_ip, socks_port) {
+    if (typeof socks_ip === 'undefined' || typeof socks_port === 'undefined')
+        return null;
+
+    return socks_agent;
+}
+
 function setEmail(email) {
     if (typeof email === 'undefined') {
         return faker.internet.email()
@@ -81,14 +107,26 @@ function setEmail(email) {
 
 function setPassword(password) {
     if (typeof password === 'undefined') {
-        return faker.internet.password()
+        return faker.internet.userName()
     }
 
     return password
 }
 
+function setProxy(socks_ip, socks_port, socks_username, socks_password) {
+    if (typeof socks_ip === 'undefined' || typeof socks_port === 'undefined') {
+        return ''
+    }
+
+    if (typeof socks_username === 'undefined' || typeof socks_password === 'undefined') {
+        return socks_ip + ':' + socks_port
+    }
+
+    return socks_username + ':' + socks_password + '@' + socks_ip + ':' + socks_port
+}
+
 function getRandomDay() {
-    return Math.floor(Math.random() * 30) + 1
+    return Math.floor(Math.random() * 28) + 1
 }
 
 function getRandomMonth() {
@@ -96,7 +134,7 @@ function getRandomMonth() {
 }
 
 function getRandomYear() {
-    return Math.floor(Math.random() * 54) + 1980
+    return Math.floor(Math.random() * 24) + 1980
 }
 
-module.exports = router
+module.exports = router;
