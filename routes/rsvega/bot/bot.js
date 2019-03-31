@@ -22,9 +22,19 @@ router.get('/rsvega/bot/unchecked', (req, res) => {
     })
 });
 
-router.get('/rsvega/bot/:id', (req, res) => {
+router.get('/rsvega/bot/id/:id', (req, res) => {
     pool.get_connection(qb => {
         qb.get_where('bot', {id: req.params.id}, (err, rows) => {
+            qb.release();
+            if (err) throw err;
+            return res.json(rows)
+        })
+    })
+});
+
+router.get('/rsvega/bot/user/:username', (req, res) => {
+    pool.get_connection(qb => {
+        qb.get_where('bot', {username: req.params.username}, (err, rows) => {
             qb.release();
             if (err) throw err;
             return res.json(rows)
@@ -42,7 +52,7 @@ router.post('/rsvega/bot/add', (req, res) => {
     })
 });
 
-router.put('/rsvega/bot/:id/update', (req, res) => {
+router.put('/rsvega/bot/id/:id/update', (req, res) => {
     pool.get_connection(qb => {
         qb.update('bot', req.body, {id: req.params.id}, (err, rows) => {
             qb.release();

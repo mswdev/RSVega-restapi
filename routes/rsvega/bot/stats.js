@@ -10,7 +10,7 @@ router.use(body_parser.urlencoded({
     extended: true
 }));
 
-router.put('/rsvega/bot/:id/stats/osrs/update', (req, res) => {
+router.put('/rsvega/bot/id/:id/stats/osrs/update', (req, res) => {
     pool.get_connection(qb => {
         qb.update('stats_osrs', req.body, {'bot_id': req.params.id}, (err, rows) => {
             qb.release();
@@ -20,7 +20,7 @@ router.put('/rsvega/bot/:id/stats/osrs/update', (req, res) => {
     })
 });
 
-router.put('/rsvega/bot/:id/stats/rs3/update', (req, res) => {
+router.put('/rsvega/bot/id/:id/stats/rs3/update', (req, res) => {
     pool.get_connection(qb => {
         qb.update('stats_rs3', req.body, {'bot_id': req.params.id}, (err, rows) => {
             qb.release();

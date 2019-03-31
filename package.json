@@ -17,11 +17,16 @@
   },
   "homepage": "https://github.com/Sphiinx/spx-restapi#readme",
   "dependencies": {
+    "@infosimples/node_two_captcha": "^1.0.2",
+    "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
     "express": "^4.16.4",
+    "faker": "^4.1.0",
     "jquery": "^3.3.1",
     "mysql": "^2.16.0",
-    "node-querybuilder": "^1.2.2"
-  }
+    "node-querybuilder": "^1.2.2",
+    "request": "^2.88.0"
+  },
+  "devDependencies": {}
 }

@@ -20,7 +20,7 @@ router.post('/rsvega/bot/session/mule-order/add', (req, res) => {
     })
 });
 
-router.put('/rsvega/bot/session/:id/mule-order/update', (req, res) => {
+router.put('/rsvega/bot/session/id/:id/mule-order/update', (req, res) => {
     pool.get_connection(qb => {
         qb.update('mule_order', req.body, {id: req.params.id}, (err, rows) => {
             qb.release();

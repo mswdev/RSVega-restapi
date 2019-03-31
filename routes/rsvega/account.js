@@ -10,9 +10,19 @@ router.use(body_parser.urlencoded({
     extended: true
 }));
 
-router.get('/rsvega/account/:id', (req, res) => {
+router.get('/rsvega/account/id/:id', (req, res) => {
     pool.get_connection(qb => {
         qb.get_where('account', {id: req.params.id}, (err, rows) => {
+            qb.release();
+            if (err) throw err;
+            return res.json(rows)
+        })
+    })
+});
+
+router.get('/rsvega/account/user/:username', (req, res) => {
+    pool.get_connection(qb => {
+        qb.get_where('account', {username: req.params.username}, (err, rows) => {
             qb.release();
             if (err) throw err;
             return res.json(rows)
@@ -30,7 +40,7 @@ router.post('/rsvega/account/add', (req, res) => {
     })
 });
 
-router.put('/rsvega/account/:id/update', (req, res) => {
+router.put('/rsvega/account/id/:id/update', (req, res) => {
     pool.get_connection(qb => {
         qb.update('account', req.body, {id: req.params.id}, (err, rows) => {
             qb.release();
