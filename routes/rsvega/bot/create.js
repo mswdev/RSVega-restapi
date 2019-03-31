@@ -21,30 +21,17 @@ const client = new two_captcha_client(captcha_api_key, {
     throwErrors: false
 });
 
+var options = {}
+
 router.get('/rsvega/bot/create', (req, res) => {
+    var proxy_url = setProxy(req.body.ip, req.body.port, req.body.proxy_username, req.body.proxy_password);
     var email = setEmail(req.body.email);
     var password = setPassword(req.body.password);
-    var proxy_url = setProxy(req.body.ip, req.body.port, req.body.proxy_username, req.body.proxy_password)
     console.log(proxy_url);
 
     getRecaptchaKey(proxy_url).then(function (response) {
         console.log(response.text);
-        request({
-            method: 'POST',
-            url: create_bot_url,
-            proxy: proxy_url,
-            form: {
-                email1: email,
-                onlyOneEmail: '1',
-                password1: password,
-                onlyOnePassword: '1',
-                day: getRandomDay(),
-                month: getRandomMonth(),
-                year: getRandomYear(),
-                'create-submit': 'create',
-                'g-recaptcha-response': response.text,
-            }
-        }, function (error, response, body) {
+        request(null, getRequestOptions(proxy_url, email, password, getRandomDay(), getRandomMonth(), getRandomYear(), response.text), function (error, response, body) {
             if (error) throw error;
             reportBadCaptcha(body, response.text);
             console.log('-------------------------------------------------------------------------');
@@ -78,6 +65,26 @@ function reportBadCaptcha(body, captcha_id) {
             return error
         })*/
     }
+}
+
+function getRequestOptions(proxy_url, email, password, day, month, year, captcha_key) {
+    return options = {
+        method: 'POST',
+        url: 'https://secure.runescape.com/m=account-creation/create_account',
+        proxy: proxy_url,
+        form:
+            {
+                email1: email,
+                onlyOneEmail: '1',
+                password1: password,
+                onlyOnePassword: '1',
+                'day': day,
+                'month': month,
+                'year': year,
+                'create-submit': 'create',
+                'g-recaptcha-response': captcha_key,
+            }
+    };
 }
 
 function setEmail(email) {
