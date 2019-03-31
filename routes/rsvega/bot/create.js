@@ -29,7 +29,7 @@ router.get('/rsvega/bot/create', (req, res) => {
 
     getRecaptchaKey(proxy_url).then(function (response) {
         console.log(response.text);
-        request.defaults({
+        request({
             method: 'POST',
             url: create_bot_url,
             proxy: proxy_url,
@@ -102,10 +102,10 @@ function setProxy(ip, port, proxy_username, proxy_password) {
     }
 
     if (typeof proxy_username === 'undefined' || typeof proxy_password === 'undefined') {
-        return 'https://' + ip + ':' + port
+        return 'http://' + ip + ':' + port
     }
 
-    return 'https://' + proxy_username + ':' + proxy_password + '@' + ip + ':' + port
+    return 'http://' + proxy_username + ':' + proxy_password + '@' + ip + ':' + port
 }
 
 function getRandomDay() {
