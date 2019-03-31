@@ -5,7 +5,6 @@ const socks_agent = require('socks5-https-client/lib/Agent');
 const two_captcha_client = require('@infosimples/node_two_captcha');
 const faker = require('faker');
 
-const captcha_api_key = 'fe920f0af037e534bb8180f0dbdec403';
 const google_key = '6Lcsv3oUAAAAAGFhlKrkRb029OHio098bbeyi_Hv';
 const create_bot_url = 'https://secure.runescape.com/m=account-creation/create_account';
 
@@ -16,18 +15,12 @@ router.use(body_parser.urlencoded({
     extended: true
 }));
 
-const client = new two_captcha_client(captcha_api_key, {
-    timeout: 65000,
-    polling: 4000,
-    throwErrors: false
-});
-
 router.get('/rsvega/bot/create', (req, res) => {
     const email = setEmail(req.body.email);
     const password = setPassword(req.body.password);
     const proxy_url = setProxy(req.body.socks_ip, req.body.socks_port, req.body.socks_username, req.body.proxy_password);
 
-    getRecaptchaKey(proxy_url).then(function (response) {
+    getRecaptchaKey(req.body.captcha_api_key, proxy_url).then(function (response) {
         console.log('-------------------------------------------------------------------------');
         console.log(response.text);
         console.log('-------------------------------------------------------------------------');
@@ -69,8 +62,16 @@ router.get('/rsvega/bot/create', (req, res) => {
     })
 });
 
-function getRecaptchaKey(proxy_url) {
-    return client.decodeRecaptchaV2({
+function getClient(captcha_api_key) {
+    return new two_captcha_client(captcha_api_key, {
+        timeout: 65000,
+        polling: 4000,
+        throwErrors: false
+    });
+}
+
+function getRecaptchaKey(captcha_api_key, proxy_url) {
+    return getClient(captcha_api_key).decodeRecaptchaV2({
         googlekey: google_key,
         pageurl: create_bot_url,
         proxy: proxy_url,
