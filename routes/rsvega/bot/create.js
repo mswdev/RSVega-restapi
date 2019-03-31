@@ -35,10 +35,10 @@ router.get('/rsvega/bot/create', (req, res) => {
             url: create_bot_url,
             agentClass: socks_agent,
             agentOptions: {
-                socksHost: '',
-                socksPort: '',
-                socksUsername: '',
-                socksPassword: '',
+                socksHost: null,
+                socksPort: null,
+                socksUsername: null,
+                socksPassword: null,
             },
             form: {
                 email1: email,
