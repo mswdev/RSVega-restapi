@@ -22,7 +22,25 @@ const client = new two_captcha_client(captcha_api_key, {
 
 router.get('/rsvega/bot/create', (req, res) => {
     getRecaptchaKey().then(function (response) {
-        return res.send('Bot created: ' + postCreateBot(response.text, req.body.email, req.body.password))
+        request(null, {
+            method: 'POST',
+            url: create_bot_url,
+            form: {
+                email1: email,
+                onlyOneEmail: '1',
+                password1: password,
+                onlyOnePassword: '1',
+                day: '27',
+                month: '07',
+                year: '1998',
+                'create-submit': 'create',
+                'g-recaptcha-response': captcha_key,
+            }
+        }, function (error, response, body) {
+            if (error) throw error;
+            //console.log(body.includes("This email address has already been used to play."));
+            return res.send(body.includes('You can now begin your adventure with your new account.'))
+        })
     });
 });
 
@@ -36,25 +54,7 @@ function getRecaptchaKey() {
 }
 
 function postCreateBot(captcha_key, email, password) {
-    request(null, {
-        method: 'POST',
-        url: create_bot_url,
-        form: {
-            email1: email,
-            onlyOneEmail: '1',
-            password1: password,
-            onlyOnePassword: '1',
-            day: '27',
-            month: '07',
-            year: '1998',
-            'create-submit': 'create',
-            'g-recaptcha-response': captcha_key,
-        }
-    }, function (error, response, body) {
-        if (error) throw error;
-        //console.log(body.includes("This email address has already been used to play."));
-        return body.includes("You can now begin your adventure with your new account.");
-    })
+
 }
 
 module.exports = router;
