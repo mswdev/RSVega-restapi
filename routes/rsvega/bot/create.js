@@ -23,13 +23,21 @@ const client = new two_captcha_client(captcha_api_key, {
 });
 
 router.get('/rsvega/bot/create', (req, res) => {
-    var email = setEmail(req.body.email);
-    var password = setPassword(req.body.password);
-    var proxy_url = setProxy(req.body.socks_ip, req.body.socks_port, req.body.socks_username, req.body.proxy_password);
-    console.log(proxy_url);
+    request({
+        method: 'GET',
+        url: 'https://api.ipify.org/'
+    }, function (error, response, body) {
+        console.log(response);
+        console.log(body)
+    })
+    /*const email = setEmail(req.body.email);
+    const password = setPassword(req.body.password);
+    const proxy_url = setProxy(req.body.socks_ip, req.body.socks_port, req.body.socks_username, req.body.proxy_password);
 
     getRecaptchaKey(proxy_url).then(function (response) {
+        console.log('-------------------------------------------------------------------------');
         console.log(response.text);
+        console.log('-------------------------------------------------------------------------');
         request({
             method: 'POST',
             url: create_bot_url,
@@ -65,7 +73,7 @@ router.get('/rsvega/bot/create', (req, res) => {
                     proxy: proxy_url,
                 })
         })
-    })
+    })*/
 });
 
 function getRecaptchaKey(proxy_url) {
@@ -73,6 +81,7 @@ function getRecaptchaKey(proxy_url) {
         googlekey: google_key,
         pageurl: create_bot_url,
         proxy: proxy_url,
+        proxytype: 'SOCKS5',
     }).catch(function (error) {
         return error
     })
@@ -104,7 +113,7 @@ function setEmail(email) {
 
 function setPassword(password) {
     if (typeof password === 'undefined') {
-        return faker.internet.password()
+        return faker.internet.userName()
     }
 
     return password
