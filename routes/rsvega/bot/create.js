@@ -2,6 +2,7 @@ const express = require('express');
 const body_parser = require('body-parser');
 const request = require('request');
 const two_captcha_client = require('@infosimples/node_two_captcha');
+const username_generator = require('username-generator');
 
 const captcha_api_key = 'fe920f0af037e534bb8180f0dbdec403';
 const google_key = '6Lcsv3oUAAAAAGFhlKrkRb029OHio098bbeyi_Hv';
@@ -15,14 +16,17 @@ router.use(body_parser.urlencoded({
 }));
 
 const client = new two_captcha_client(captcha_api_key, {
-    timeout: 60000,
-    polling: 5000,
+    timeout: 65000,
+    polling: 4000,
     throwErrors: false
 });
 
 router.get('/rsvega/bot/create', (req, res) => {
-    getRecaptchaKey().then(function (response) {
-        request(null, {
+    console.log(req.body.username === null)
+   /* getRecaptchaKey().then(function (response) {
+
+
+        /!*request(null, {
             method: 'POST',
             url: create_bot_url,
             form: {
@@ -30,9 +34,9 @@ router.get('/rsvega/bot/create', (req, res) => {
                 onlyOneEmail: '1',
                 password1: req.body.password,
                 onlyOnePassword: '1',
-                day: '27',
-                month: '07',
-                year: '1998',
+                day: getRandomDay(),
+                month: getRandomMonth(),
+                year: getRandomYear(),
                 'create-submit': 'create',
                 'g-recaptcha-response': response.text,
             }
@@ -40,8 +44,8 @@ router.get('/rsvega/bot/create', (req, res) => {
             if (error) throw error;
             reportBadCaptcha(body, response.text);
             return res.json({success: body.length === 0})
-        })
-    });
+        })*!/
+    });*/
 });
 
 function getRecaptchaKey() {
@@ -60,6 +64,18 @@ function reportBadCaptcha(body, captcha_id) {
             return error
         });*/
     }
+}
+
+function getRandomDay() {
+    return Math.floor(Math.random() * 30) + 1;
+}
+
+function getRandomMonth() {
+    return Math.floor(Math.random() * 12) + 1;
+}
+
+function getRandomYear() {
+    return Math.floor(Math.random() * 54) + 1980;
 }
 
 module.exports = router;
