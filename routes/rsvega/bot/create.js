@@ -38,11 +38,8 @@ router.get('/rsvega/bot/create', (req, res) => {
             }
         }, function (error, response, body) {
             if (error) throw error;
-            //reportBadCaptcha(body, response.text);
-            console.log('---------------------------------------------------------------')
-            console.log(body.length);
-            console.log('---------------------------------------------------------------')
-            return res.json({success: body.includes('You can now begin your adventure with your new account.')})
+            reportBadCaptcha(body, response.text);
+            return res.json({success: body.length === 0})
         })
     });
 });
