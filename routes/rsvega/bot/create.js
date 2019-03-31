@@ -24,15 +24,15 @@ const client = new two_captcha_client(captcha_api_key, {
 router.get('/rsvega/bot/create', (req, res) => {
     var email = setEmail(req.body.email);
     var password = setPassword(req.body.password);
-    var proxy = setProxy(req.body.ip, req.body.port, req.body.proxy_username, req.body.proxy_password)
+    var proxy_url = setProxy(req.body.ip, req.body.port, req.body.proxy_username, req.body.proxy_password)
     console.log(proxy)
 
-    getRecaptchaKey(proxy).then(function (response) {
+    getRecaptchaKey(proxy_url).then(function (response) {
         console.log(response.text)
-        /*request.defaults({
+        request(null, {
             method: 'POST',
             url: create_bot_url,
-            proxy: proxy,
+            proxy: proxy_url,
             form: {
                 email1: email,
                 onlyOneEmail: '1',
@@ -52,17 +52,17 @@ router.get('/rsvega/bot/create', (req, res) => {
                     success: body.length === 0,
                     email: email,
                     password: password,
-                    proxy: proxy,
+                    proxy: proxy_url,
                 })
-        })*/
+        })
     })
 });
 
-function getRecaptchaKey(proxy) {
+function getRecaptchaKey(proxy_url) {
     return client.decodeRecaptchaV2({
         googlekey: google_key,
         pageurl: create_bot_url,
-        proxy: proxy,
+        proxy: proxy_url,
     }).catch(function (error) {
         return error
     })
