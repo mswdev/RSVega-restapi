@@ -25,7 +25,7 @@ router.get('/rsvega/bot/create', (req, res) => {
     var email = setEmail(req.body.email);
     var password = setPassword(req.body.password);
     var proxy_url = setProxy(req.body.ip, req.body.port, req.body.proxy_username, req.body.proxy_password)
-    console.log(proxy)
+    console.log(proxy_url)
 
     getRecaptchaKey(proxy_url).then(function (response) {
         console.log(response.text)
