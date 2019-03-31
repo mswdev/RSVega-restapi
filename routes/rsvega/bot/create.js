@@ -25,8 +25,10 @@ router.get('/rsvega/bot/create', (req, res) => {
     var email = setEmail(req.body.email);
     var password = setPassword(req.body.password);
 
-    getRecaptchaKey().then(function (response) {
-        request(null, {
+    console.log(email)
+    console.log(password)
+    /*getRecaptchaKey().then(function (response) {
+        /!*request(null, {
             method: 'POST',
             url: create_bot_url,
             form: {
@@ -50,7 +52,7 @@ router.get('/rsvega/bot/create', (req, res) => {
                     password: password,
                 })
         })
-    })
+    })*!/*/
 });
 
 function getRecaptchaKey() {
