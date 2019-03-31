@@ -22,7 +22,7 @@ const client = new two_captcha_client(captcha_api_key, {
 });
 
 router.get('/rsvega/bot/create', (req, res) => {
-    var proxyUrl = "107.175.151.86:1080';
+    var proxyUrl = '107.175.151.86:1080';
 
     var proxiedRequest = request.defaults({'proxy': proxyUrl});
     return res.send(proxiedRequest.get('https://google.com').body)
