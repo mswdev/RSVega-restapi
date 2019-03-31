@@ -29,10 +29,10 @@ router.get('/rsvega/bot/create', (req, res) => {
 
     getRecaptchaKey(proxy_url).then(function (response) {
         console.log(response.text)
-        request.defaults({
+        request(null, {
             method: 'POST',
             url: create_bot_url,
-            proxy: 'https://107.175.151.86:1080',
+            proxy: proxy_url,
             form: {
                 email1: email,
                 onlyOneEmail: '1',
