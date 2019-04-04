@@ -107,7 +107,7 @@ function setEmail(email) {
 
 function setPassword(password) {
     if (typeof password === 'undefined') {
-        return faker.internet.userName().replace('[^A-Za-z0-9+]', '')
+        return faker.internet.userName().replace(/[^A-Za-z0-9+]/g, '')
     }
 
     return password
