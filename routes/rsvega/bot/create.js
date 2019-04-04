@@ -107,7 +107,7 @@ function setEmail(email) {
 
 function setPassword(password) {
     if (typeof password === 'undefined') {
-        return faker.internet.password()
+        return faker.helpers.slugify(faker.internet.password())
     }
 
     return password
