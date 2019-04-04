@@ -49,7 +49,7 @@ router.get('/rsvega/bot/create', (req, res) => {
             if (error) throw error;
             reportBadCaptcha(body, response.text);
             console.log('-------------------------------------------------------------------------');
-            console.log(response.text);
+            console.log(body);
             console.log('-------------------------------------------------------------------------');
             return res.json(
                 {
@@ -107,7 +107,7 @@ function setEmail(email) {
 
 function setPassword(password) {
     if (typeof password === 'undefined') {
-        return faker.internet.password()
+        return faker.internet.userName().replace(/[^A-Za-z0-9+]/g, '')
     }
 
     return password
