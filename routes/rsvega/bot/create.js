@@ -15,7 +15,7 @@ router.use(body_parser.urlencoded({
     extended: true
 }));
 
-router.get('/rsvega/bot/create', (req, res) => {
+router.post('/rsvega/bot/create', (req, res) => {
     const email = setEmail(req.body.email);
     const password = setPassword(req.body.password);
     const proxy_url = setProxy(req.body.socks_ip, req.body.socks_port, req.body.socks_username, req.body.proxy_password);
