@@ -11,7 +11,7 @@ router.use(body_parser.urlencoded({
 
 router.post('/rsvega/bot/create', (req, res) => {
     account.create(req.body.two_captcha_api_key, req.body.email, req.body.password, req.body.socks_ip, req.body.socks_port, req.body.socks_username, req.body.socks_password).then(response => {
-        return res(response);
+        return res.send(response);
     })
 });
 
