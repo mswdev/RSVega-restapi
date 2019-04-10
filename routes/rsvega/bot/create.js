@@ -1,4 +1,5 @@
 const express = require('express');
+const account = require('runescape-account-creator');
 const body_parser = require('body-parser');
 const request = require('request');
 const socks_agent = require('socks5-https-client/lib/Agent');
@@ -16,7 +17,10 @@ router.use(body_parser.urlencoded({
 }));
 
 router.post('/rsvega/bot/create', (req, res) => {
-    const email = setEmail(req.body.email);
+    account.create(req.body.two_captcha_api_key, req.body.email, req.body.password, req.body.socks_ip, req.body.socks_port, req.body.socks_username, req.body.socks_password).then(response => {
+        return res.json(response);
+    })
+    /*const email = setEmail(req.body.email);
     const password = setPassword(req.body.password);
     const proxy_url = setProxy(req.body.socks_ip, req.body.socks_port, req.body.socks_username, req.body.socks_password);
 
@@ -59,7 +63,7 @@ router.post('/rsvega/bot/create', (req, res) => {
                     proxy: proxy_url,
                 })
         })
-    })
+    })*/
 });
 
 function getClient(captcha_api_key) {
