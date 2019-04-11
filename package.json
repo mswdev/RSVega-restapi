@@ -21,9 +21,9 @@
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "faker": "^4.1.0",
-    "jquery": "^3.3.1",
+    "jquery": "^3.4.0",
     "node-querybuilder": "^1.2.2",
-    "runescape-account-creator": "^1.0.2"
+    "runescape-account-creator": "^1.0.5"
   },
   "devDependencies": {}
 }
