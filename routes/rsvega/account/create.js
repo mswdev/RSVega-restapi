@@ -14,7 +14,7 @@ router.post('/rsvega/account/create', async (req, res) => {
 
     try {
         const response = await builder.register({
-            username: req.body.username,
+            email: req.body.email,
             password: req.body.password,
             proxy: formatProxyUrl(req.body.socks_ip, req.body.socks_port, req.body.socks_username, req.body.socks_password)
         });
