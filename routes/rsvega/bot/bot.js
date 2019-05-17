@@ -32,9 +32,9 @@ router.get('/rsvega/bot/id/:id', (req, res) => {
     })
 });
 
-router.get('/rsvega/bot/user/:username', (req, res) => {
+router.get('/rsvega/bot/user/:email', (req, res) => {
     pool.get_connection(qb => {
-        qb.get_where('bot', {username: req.params.username}, (err, rows) => {
+        qb.get_where('bot', {email: req.params.email}, (err, rows) => {
             qb.release();
             if (err) throw err;
             return res.json(rows)
