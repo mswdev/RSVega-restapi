@@ -10,6 +10,16 @@ router.use(body_parser.urlencoded({
     extended: true
 }));
 
+router.get('/rsvega/bot/session/session-id/:session_id/mule-order/newest', (req, res) => {
+    pool.get_connection(qb => {
+        qb.limit(1).order_by("id", "DESC").get_where('mule_order', {session_id: req.params.session_id}, (err, rows) => {
+            qb.release();
+            if (err) throw err;
+            return res.json(rows)
+        })
+    })
+});
+
 router.post('/rsvega/bot/session/mule-order/add', (req, res) => {
     pool.get_connection(qb => {
         qb.insert_ignore('mule_order', req.body, 'ON DUPLICATE KEY UPDATE id=id', (err, rows) => {
