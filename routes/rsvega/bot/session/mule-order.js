@@ -10,9 +10,19 @@ router.use(body_parser.urlencoded({
     extended: true
 }));
 
-router.get('/rsvega/bot/session/session-id/:session_id/mule-order/newest', (req, res) => {
+router.get('/rsvega/bot/session/account-id/:account_id/mule-order/newest', (req, res) => {
     pool.get_connection(qb => {
-        qb.limit(1).order_by("id", "DESC").get_where('mule_order', {session_id: req.params.session_id}, (err, rows) => {
+        qb.limit(1).order_by("id", "DESC").get_where('mule_order', {account_id: req.params.account_id}, (err, rows) => {
+            qb.release();
+            if (err) throw err;
+            return res.json(rows)
+        })
+    })
+});
+
+router.get('/rsvega/bot/session/account-id/:account_id/mule-order/unassigned', (req, res) => {
+    pool.get_connection(qb => {
+        qb.limit(1).order_by("id", "DESC").get_where('mule_order', {account_id: req.params.account_id, mule_bot_id: 0}, (err, rows) => {
             qb.release();
             if (err) throw err;
             return res.json(rows)
