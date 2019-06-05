@@ -1,6 +1,6 @@
 const express = require('express');
 const body_parser = require('body-parser');
-const settings = require('../../db.json');
+const settings = require('../db.json');
 const pool = require('node-querybuilder').QueryBuilder(settings, 'mysql', 'pool');
 
 const router = express.Router();
@@ -10,9 +10,10 @@ router.use(body_parser.urlencoded({
     extended: true
 }));
 
-router.get('/rsvega/bot/session/account-id/:account_id/newest', (req, res) => {
+// Get system info by id
+router.get('/rsvega/user/system-info/id/:id', (req, res) => {
     pool.get_connection(qb => {
-        qb.limit(1).order_by("id", "DESC").get_where('session', {account_id: req.params.account_id}, (err, rows) => {
+        qb.get_where('system_info', {id: req.params.id}, (err, rows) => {
             qb.release();
             if (err) throw err;
             return res.json(rows)
@@ -20,22 +21,24 @@ router.get('/rsvega/bot/session/account-id/:account_id/newest', (req, res) => {
     })
 });
 
-router.post('/rsvega/bot/session/add', (req, res) => {
+// Insert system info
+router.post('/rsvega/user/system-info/add', (req, res) => {
     pool.get_connection(qb => {
-        qb.insert_ignore('session', req.body, 'ON DUPLICATE KEY UPDATE id=id', (err, rows) => {
+        qb.insert_ignore('system_info', req.body, 'ON DUPLICATE KEY UPDATE id=id', (err, rows) => {
             qb.release();
             if (err) throw err;
-            return res.json(rows)
+            return res.json([rows])
         })
     })
 });
 
-router.put('/rsvega/bot/id/:id/session/update', (req, res) => {
+// Update system info by id
+router.put('/rsvega/user/system-info/id/:id/update', (req, res) => {
     pool.get_connection(qb => {
-        qb.update('session', req.body, {id: req.params.id}, (err, rows) => {
+        qb.update('system_info', req.body, {id: req.params.id}, (err, rows) => {
             qb.release();
             if (err) throw err;
-            return res.json(rows)
+            return res.json([rows])
         })
     })
 });

@@ -12,9 +12,10 @@ router.use(body_parser.urlencoded({
 
 router.use(express.static('./public'));
 
-router.get('/rsvega/bot/unchecked', (req, res) => {
+// Get account by id
+router.get('/rsvega/account/id/:id', (req, res) => {
     pool.get_connection(qb => {
-        qb.limit(1).order_by("id", "random").get_where('bot', {'last_check': null}, (err, rows) => {
+        qb.get_where('account', {id: req.params.id}, (err, rows) => {
             qb.release();
             if (err) throw err;
             return res.json(rows)
@@ -22,9 +23,32 @@ router.get('/rsvega/bot/unchecked', (req, res) => {
     })
 });
 
-router.get('/rsvega/bot/id/:id', (req, res) => {
+// Insert account
+router.post('/rsvega/account/add', (req, res) => {
     pool.get_connection(qb => {
-        qb.get_where('bot', {id: req.params.id}, (err, rows) => {
+        qb.insert_ignore('account', req.body, 'ON DUPLICATE KEY UPDATE id=id', (err, rows) => {
+            qb.release();
+            if (err) throw err;
+            return res.json([rows])
+        })
+    })
+});
+
+// Update account by id
+router.put('/rsvega/account/id/:id/update', (req, res) => {
+    pool.get_connection(qb => {
+        qb.update('account', req.body, {id: req.params.id}, (err, rows) => {
+            qb.release();
+            if (err) throw err;
+            return res.json([rows])
+        })
+    })
+});
+
+// Get account where is mule order by random limit 1
+router.get('/rsvega/account/is-mule/active/random', (req, res) => {
+    pool.get_connection(qb => {
+        qb.query('SELECT * FROM `account` WHERE `is_mule` = 1 AND `last_update` >= NOW() - INTERVAL 1 MINUTE ORDER BY RAND() LIMIT 1', (err, rows) => {
             qb.release();
             if (err) throw err;
             return res.json(rows)
@@ -32,29 +56,10 @@ router.get('/rsvega/bot/id/:id', (req, res) => {
     })
 });
 
-router.get('/rsvega/bot/user/:email', (req, res) => {
+// Get unchecked account
+router.get('/rsvega/account/unchecked', (req, res) => {
     pool.get_connection(qb => {
-        qb.get_where('bot', {email: req.params.email}, (err, rows) => {
-            qb.release();
-            if (err) throw err;
-            return res.json(rows)
-        })
-    })
-});
-
-router.post('/rsvega/bot/add', (req, res) => {
-    pool.get_connection(qb => {
-        qb.insert_ignore('bot', req.body, 'ON DUPLICATE KEY UPDATE id=id', (err, rows) => {
-            qb.release();
-            if (err) throw err;
-            return res.json(rows)
-        })
-    })
-});
-
-router.put('/rsvega/bot/id/:id/update', (req, res) => {
-    pool.get_connection(qb => {
-        qb.update('bot', req.body, {id: req.params.id}, (err, rows) => {
+        qb.limit(1).order_by("id", "random").get_where('account', {'last_check': null}, (err, rows) => {
             qb.release();
             if (err) throw err;
             return res.json(rows)

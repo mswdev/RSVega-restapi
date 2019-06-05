@@ -10,9 +10,10 @@ router.use(body_parser.urlencoded({
     extended: true
 }));
 
-router.get('/rsvega/bot/session/bot-id/:bot_id/mule-order/newest', (req, res) => {
+// Get stats osrs by account id
+router.get('/rsvega/account/id/:id/stats/osrs', (req, res) => {
     pool.get_connection(qb => {
-        qb.limit(1).order_by("id", "DESC").get_where('mule_order', {bot_id: req.params.bot_id}, (err, rows) => {
+        qb.get_where('stats_osrs', {account_id: req.params.id}, (err, rows) => {
             qb.release();
             if (err) throw err;
             return res.json(rows)
@@ -20,9 +21,10 @@ router.get('/rsvega/bot/session/bot-id/:bot_id/mule-order/newest', (req, res) =>
     })
 });
 
-router.get('/rsvega/bot/session/account-id/:account_id/mule-order/unassigned', (req, res) => {
+// Get stats rs3 by account id
+router.get('/rsvega/account/id/:id/stats/rs3', (req, res) => {
     pool.get_connection(qb => {
-        qb.limit(1).order_by("id", "DESC").get_where('mule_order', {account_id: req.params.account_id, mule_bot_id: 0}, (err, rows) => {
+        qb.get_where('stats_rs3', {account_id: req.params.id}, (err, rows) => {
             qb.release();
             if (err) throw err;
             return res.json(rows)
@@ -30,22 +32,24 @@ router.get('/rsvega/bot/session/account-id/:account_id/mule-order/unassigned', (
     })
 });
 
-router.post('/rsvega/bot/session/mule-order/add', (req, res) => {
+// Update stats osrs by account id
+router.put('/rsvega/account/id/:id/stats/osrs/update', (req, res) => {
     pool.get_connection(qb => {
-        qb.insert_ignore('mule_order', req.body, 'ON DUPLICATE KEY UPDATE id=id', (err, rows) => {
+        qb.update('stats_osrs', req.body, {account_id: req.params.id}, (err, rows) => {
             qb.release();
             if (err) throw err;
-            return res.json(rows)
+            return res.json([rows])
         })
     })
 });
 
-router.put('/rsvega/bot/session/session-id/:session_id/mule-order/update', (req, res) => {
+// Update stats rs3 by account id
+router.put('/rsvega/account/id/:id/stats/rs3/update', (req, res) => {
     pool.get_connection(qb => {
-        qb.update('mule_order', req.body, {session_id: req.params.session_id}, (err, rows) => {
+        qb.update('stats_rs3', req.body, {account_id: req.params.id}, (err, rows) => {
             qb.release();
             if (err) throw err;
-            return res.json(rows)
+            return res.json([rows])
         })
     })
 });
