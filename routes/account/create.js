@@ -9,6 +9,7 @@ router.use(body_parser.urlencoded({
     extended: true
 }));
 
+// Post account create
 router.post('/rsvega/account/create', async (req, res) => {
     const builder = account.buildAccountCreator(req.body.two_captcha_api_key);
 
@@ -19,7 +20,7 @@ router.post('/rsvega/account/create', async (req, res) => {
             proxy: formatProxyUrl(req.body.socks_ip, req.body.socks_port, req.body.socks_username, req.body.socks_password)
         });
 
-        res.send(response);
+        res.send([response]);
     } catch (e) {
         console.error(e);
         res.send({error: e.message}).status(500);

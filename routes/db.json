@@ -3,5 +3,6 @@
   "host": "localhost",
   "user": "nodejs",
   "password": "naZAus#u%+-F63Susvrt",
-  "database": "rsvega"
+  "database": "rsvega",
+  "debug": false
 }
