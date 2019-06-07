@@ -45,14 +45,23 @@ router.put('/rsvega/account/id/:id/update', (req, res) => {
     })
 });
 
-
+// Get account where is mule order by random limit 1
+router.get('/rsvega/account/is-mule/active/random', (req, res) => {
+    pool.get_connection(qb => {
+        qb.query('SELECT * FROM `account` WHERE `is_mule` = 1 AND `last_update` >= NOW() - INTERVAL 1 MINUTE ORDER BY RAND() LIMIT 1', (err, rows) => {
+            qb.release();
+            if (err) throw err;
+            return res.json(rows)
+        })
+    })
+});
 
 // Get account where user id and is mule order by random limit 1
 router.get('/rsvega/account/user-id/:user-id/is-mule/active/random', (req, res) => {
     console.log(req.params.user-id)
     console.log(req.params.user_id)
     pool.get_connection(qb => {
-        qb.query('SELECT * FROM `account` WHERE `is_mule` = 1 AND `last_update` AND `user_id` = 1 >= CONVERT_TZ(now(),\'Europe/London\',\'US/Mountain\') - INTERVAL 1 MINUTE ORDER BY RAND() LIMIT 1', (err, rows) => {
+        qb.query('SELECT * FROM `account` WHERE `is_mule` = 1 AND `last_update` AND `user_id` = ' + req.params.user_id + ' >= NOW() - INTERVAL 1 MINUTE ORDER BY RAND() LIMIT 1', (err, rows) => {
             qb.release();
             if (err) throw err;
             return res.json(rows)
