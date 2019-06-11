@@ -24,7 +24,8 @@
     "jquery": "^3.4.1",
     "node-querybuilder": "^1.2.2",
     "request": "^2.88.0",
-    "runescape-account-creator": "^2.0.2"
+    "runescape-account-creator": "^2.0.2",
+    "debug": "latest"
   },
   "devDependencies": {}
 }
