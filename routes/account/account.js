@@ -39,19 +39,10 @@ router.put('/rsvega/account/id/:id/update', (req, res) => {
     pool.get_connection(qb => {
         qb.update('account', req.body, {id: req.params.id}, (err, rows) => {
             qb.release();
-            if (err) throw err;
-            return res.json([rows])
-        })
-    })
-});
+            if (err)
+                return res.json([err]);
 
-// Get account where is mule order by random limit 1
-router.get('/rsvega/account/is-mule/active/random', (req, res) => {
-    pool.get_connection(qb => {
-        qb.query('SELECT * FROM `account` WHERE `is_mule` = 1 AND `last_update` >= NOW() - INTERVAL 1 MINUTE ORDER BY RAND() LIMIT 1', (err, rows) => {
-            qb.release();
-            if (err) throw err;
-            return res.json(rows)
+            return res.json([rows])
         })
     })
 });
