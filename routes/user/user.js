@@ -21,7 +21,7 @@ router.get('/rsvega/user/id/:id', (req, res) => {
                 return res.json([err])
             }
 
-            return res.json([rows])
+            return res.json(rows)
         })
     })
 })

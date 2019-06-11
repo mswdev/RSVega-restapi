@@ -21,7 +21,7 @@ router.get('/rsvega/account/session/mule-order/id/:id', (req, res) => {
                 return res.json([err])
             }
 
-            return res.json([rows])
+            return res.json(rows)
         })
     })
 })
