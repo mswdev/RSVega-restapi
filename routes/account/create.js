@@ -23,7 +23,7 @@ router.post('/rsvega/account/create', async (req, res) => {
         res.send([response]);
     } catch (e) {
         console.error(e);
-        res.send({error: e.message}).status(500);
+        res.send([{error: e.message}]).status(500);
     }
 });
 
