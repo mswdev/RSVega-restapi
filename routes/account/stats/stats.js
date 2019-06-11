@@ -21,7 +21,7 @@ router.get('/rsvega/account/id/:id/stats/osrs', (req, res) => {
                 return res.json([err])
             }
 
-            return res.json([rows])
+            return res.json(rows)
         })
     })
 })
@@ -36,7 +36,7 @@ router.get('/rsvega/account/id/:id/stats/rs3', (req, res) => {
                 return res.json([err])
             }
 
-            return res.json([rows])
+            return res.json(rows)
         })
     })
 })

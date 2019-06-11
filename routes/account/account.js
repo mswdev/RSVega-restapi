@@ -23,7 +23,7 @@ router.get('/rsvega/account/id/:id', (req, res) => {
                 return res.json([err])
             }
 
-            return res.json([rows])
+            return res.json(rows)
         })
     })
 })
@@ -68,7 +68,7 @@ router.get('/rsvega/account/user-id/:user_id/is-mule/active/random', (req, res) 
                 return res.json([err])
             }
 
-            return res.json([rows])
+            return res.json(rows)
         })
     })
 })
@@ -83,7 +83,7 @@ router.get('/rsvega/account/unchecked', (req, res) => {
                 return res.json([err])
             }
 
-            return res.json([rows])
+            return res.json(rows)
         })
     })
 })
