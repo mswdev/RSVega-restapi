@@ -13,7 +13,6 @@ router.use(body_parser.urlencoded({
 // Post account create
 router.post('/rsvega/account/create', async (req, res) => {
     const builder = account.buildAccountCreator(req.body.two_captcha_api_key)
-
     try {
         const response = await builder.register({
             email: req.body.email,
