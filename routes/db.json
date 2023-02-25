@@ -2,7 +2,7 @@
   "connectionLimit": 75,
   "host": "localhost",
   "user": "nodejs",
-  "password": "naZAus#u%+-F63Susvrt",
-  "database": "rsvega",
+  "password": "",
+  "database": "",
   "debug": false
 }
